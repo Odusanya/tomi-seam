@@ -1,0 +1,31 @@
+/* Fixed Radix Colors scales (npm i @radix-ui/colors).
+   The accent and gray scales are imported by generated.css, because the theme
+   config chooses them. Light files use `:root, .light, .light-theme`, dark files
+   use `.dark, .dark-theme`, so a nested .dark panel re-themes correctly.
+   Each file carries its own Display-P3 overrides, as the reference system's CSS does. */
+
+/* Status intents: positive = green, warning = orange, danger = tomato. */
+@import "@radix-ui/colors/green.css";
+@import "@radix-ui/colors/green-dark.css";
+@import "@radix-ui/colors/green-alpha.css";
+@import "@radix-ui/colors/green-dark-alpha.css";
+@import "@radix-ui/colors/orange.css";
+@import "@radix-ui/colors/orange-dark.css";
+@import "@radix-ui/colors/orange-alpha.css";
+@import "@radix-ui/colors/orange-dark-alpha.css";
+@import "@radix-ui/colors/tomato.css";
+@import "@radix-ui/colors/tomato-dark.css";
+@import "@radix-ui/colors/tomato-alpha.css";
+@import "@radix-ui/colors/tomato-dark-alpha.css";
+
+/* Chart series 3-5 (series 1 is the accent, series 2 the neutral). */
+@import "@radix-ui/colors/violet.css";
+@import "@radix-ui/colors/violet-dark.css";
+@import "@radix-ui/colors/teal.css";
+@import "@radix-ui/colors/teal-dark.css";
+@import "@radix-ui/colors/amber.css";
+@import "@radix-ui/colors/amber-dark.css";
+
+/* Overlays, sunken wells, shadows. */
+@import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/colors/white-alpha.css";

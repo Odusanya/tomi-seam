@@ -1,0 +1,27 @@
+/* Domain tokens (L0 additions). Source of truth: docs/yardsticks/tokens.md.
+   Aliases of existing scales, no new hues except the AI accent. */
+:root {
+  --brand: var(--ui-brand-solid);
+
+  /* AI accent: machine output only. Never used for anything a person approved. */
+  --ai-solid: var(--violet-9);
+  --ai-subtle: var(--violet-3);
+  --ai-border: var(--violet-7);
+  --ai-fg: var(--violet-11);
+
+  /* Severity: domain meaning, shares status hues. */
+  --sev-major-solid: var(--tomato-9);
+  --sev-major-subtle: var(--tomato-a3);
+  --sev-major-fg: var(--tomato-11);
+  --sev-minor-solid: var(--orange-9);
+  --sev-minor-subtle: var(--orange-a4);
+  --sev-minor-fg: var(--orange-11);
+  --sev-obs-solid: var(--ui-fg-tertiary);
+  --sev-obs-subtle: var(--ui-component);
+  --sev-obs-fg: var(--ui-fg-secondary);
+}
+
+/* Use the Geist Mono that next/font loads (layout.tsx), not a system fallback. */
+:root {
+  --ui-font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}

@@ -1,0 +1,204 @@
+/* Tailwind v4 utilities for the tokens. Import last (after shadcn-bridge.css).
+   Naming rule: shadcn names keep shadcn meanings (text-primary-foreground is
+   text ON a primary button). the reference system's text roles are text-fg-*, its
+   translucent card is bg-card-subtle, its borders are border-default/-subtle/-strong. */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* shadcn colours (replace the starter's @theme inline colour block) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--ui-primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Surfaces: bg-shell bg-page bg-container bg-card-subtle bg-sunken bg-modal ... */
+  --color-shell: var(--ui-shell);
+  --color-page: var(--ui-page);
+  --color-container: var(--ui-container);
+  --color-container-recessed: var(--ui-container-recessed);
+  --color-card-subtle: var(--ui-card);
+  --color-sunken: var(--ui-sunken);
+  --color-modal: var(--ui-modal);
+  --color-standout: var(--ui-standout);
+  --color-overlay: var(--ui-overlay);
+  --color-component: var(--ui-component);
+  --color-component-hover: var(--ui-component-hover);
+  --color-component-active: var(--ui-component-active);
+  --color-component-on-sunken: var(--ui-component-on-sunken);
+  --color-component-on-container: var(--ui-component-on-container-strong);
+  --color-component-on-container-hover: var(--ui-component-on-container-strong-hover);
+  --color-component-on-container-strong: var(--ui-component-on-container-strong);
+  --color-component-on-container-strong-hover: var(--ui-component-on-container-strong-hover);
+  --color-component-on-container-subtle: var(--ui-component-on-container-subtle);
+  --color-component-on-container-subtle-hover: var(--ui-component-on-container-subtle-hover);
+  --color-ghost-hover: var(--ui-ghost-hover);
+  --color-ghost-active: var(--ui-ghost-active);
+  --color-disabled: var(--ui-disabled);
+
+  /* Text: text-fg-primary text-fg-secondary text-fg-tertiary text-fg-brand text-on-brand-solid ... */
+  --color-fg-primary: var(--ui-fg-primary);
+  --color-fg-secondary: var(--ui-fg-secondary);
+  --color-fg-tertiary: var(--ui-fg-tertiary);
+  --color-fg-disabled: var(--ui-fg-disabled);
+  --color-fg-brand: var(--ui-fg-brand);
+  --color-fg-positive: var(--ui-fg-positive);
+  --color-fg-warning: var(--ui-fg-warning);
+  --color-fg-danger: var(--ui-fg-danger);
+  --color-on-standout: var(--ui-on-standout);
+  --color-on-standout-secondary: var(--ui-on-standout-secondary);
+  --color-on-inverted: var(--ui-on-inverted);
+  --color-on-brand-solid: var(--ui-on-brand-solid);
+  --color-on-brand-subtle: var(--ui-on-brand-subtle);
+  --color-on-positive-solid: var(--ui-on-positive-solid);
+  --color-on-positive-subtle: var(--ui-on-positive-subtle);
+  --color-on-warning-solid: var(--ui-on-warning-solid);
+  --color-on-warning-subtle: var(--ui-on-warning-subtle);
+  --color-on-danger-solid: var(--ui-on-danger-solid);
+  --color-on-danger-subtle: var(--ui-on-danger-subtle);
+
+  /* Intent fills: bg-brand-solid hover:bg-brand-solid-hover bg-positive-subtle ... */
+  --color-brand-solid: var(--ui-brand-solid);
+  --color-brand-solid-hover: var(--ui-brand-solid-hover);
+  --color-brand-solid-active: var(--ui-brand-solid-active);
+  --color-brand-subtle: var(--ui-brand-subtle);
+  --color-brand-subtle-hover: var(--ui-brand-subtle-hover);
+  --color-positive-solid: var(--ui-positive-solid);
+  --color-positive-solid-hover: var(--ui-positive-solid-hover);
+  --color-positive-subtle: var(--ui-positive-subtle);
+  --color-warning-solid: var(--ui-warning-solid);
+  --color-warning-solid-hover: var(--ui-warning-solid-hover);
+  --color-warning-subtle: var(--ui-warning-subtle);
+  --color-danger-solid: var(--ui-danger-solid);
+  --color-danger-solid-hover: var(--ui-danger-solid-hover);
+  --color-danger-solid-active: var(--ui-danger-solid-active);
+  --color-danger-subtle: var(--ui-danger-subtle);
+  --color-danger-subtle-hover: var(--ui-danger-subtle-hover);
+  --color-inverted-solid: var(--ui-inverted-solid);
+  --color-inverted-solid-hover: var(--ui-inverted-solid-hover);
+  --color-inverted-solid-active: var(--ui-inverted-solid-active);
+
+  /* Borders (border-*, divide-* only): border-default border-subtle border-strong border-focus ... */
+  --border-color-default: var(--ui-border-default);
+  --border-color-subtle: var(--ui-border-subtle);
+  --border-color-strong: var(--ui-border-strong);
+  --border-color-inverted: var(--ui-border-inverted);
+  --border-color-brand: var(--ui-border-brand);
+  --border-color-focus: var(--ui-border-focus);
+  --border-color-positive: var(--ui-border-positive);
+  --border-color-warning: var(--ui-border-warning);
+  --border-color-danger: var(--ui-border-danger);
+  --border-color-danger-subtle: var(--ui-border-danger-subtle);
+  /* Same colours for ring-*, outline-*, bg-* hairlines: ring-line-focus, bg-line-default */
+  --color-line-default: var(--ui-border-default);
+  --color-line-subtle: var(--ui-border-subtle);
+  --color-line-strong: var(--ui-border-strong);
+  --color-line-focus: var(--ui-border-focus);
+
+  /* Type: the reference system's 13-step scale, in px literals so density never resizes text */
+  --font-sans: var(--ui-font-sans);
+  --font-mono: var(--ui-font-mono);
+  --font-heading: var(--ui-font-sans);
+  --font-weight-semimedium: 450;
+  --text-caption-xs: 8px;
+  --text-caption-xs--line-height: 12px;
+  --text-caption-sm: 10px;
+  --text-caption-sm--line-height: 16px;
+  --text-caption-base: 11px;
+  --text-caption-base--line-height: 16px;
+  --text-caption-lg: 12px;
+  --text-caption-lg--line-height: 16px;
+  --text-body-sm: 13px;
+  --text-body-sm--line-height: 20px;
+  --text-body-base: 15px;
+  --text-body-base--line-height: 24px;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 24px;
+  --text-heading-6: 20px;
+  --text-heading-6--line-height: 24px;
+  --text-heading-6--letter-spacing: -0.01em;
+  --text-heading-5: 24px;
+  --text-heading-5--line-height: 32px;
+  --text-heading-5--letter-spacing: -0.01em;
+  --text-heading-4: 28px;
+  --text-heading-4--line-height: 36px;
+  --text-heading-4--letter-spacing: -0.01em;
+  --text-heading-3: 36px;
+  --text-heading-3--line-height: 44px;
+  --text-heading-3--letter-spacing: -0.01em;
+  --text-heading-2: 44px;
+  --text-heading-2--line-height: 56px;
+  --text-heading-2--letter-spacing: -0.01em;
+  --text-heading-1: 56px;
+  --text-heading-1--line-height: 56px;
+  --text-heading-1--letter-spacing: -0.01em;
+
+  /* Radius: reference ladder x config factor (xl/2xl/3xl differ from Tailwind defaults) */
+  --radius-xs: var(--ui-radius-xs);
+  --radius-sm: var(--ui-radius-sm);
+  --radius-md: var(--ui-radius-md);
+  --radius-lg: var(--ui-radius-lg);
+  --radius-xl: var(--ui-radius-xl);
+  --radius-2xl: var(--ui-radius-2xl);
+  --radius-3xl: var(--ui-radius-3xl);
+  --radius-4xl: var(--ui-radius-4xl);
+  --radius-5xl: var(--ui-radius-5xl);
+
+  /* Shadows: shadow-default shadow-lg shadow-xl shadow-ring */
+  --shadow-default: var(--ui-shadow-default);
+  --shadow-lg: var(--ui-shadow-lg);
+  --shadow-xl: var(--ui-shadow-xl);
+  --shadow-ring: var(--ui-shadow-border);
+
+  /* Motion: ease-out-quint ease-out-cubic ...; duration-* stays Tailwind's numeric scale */
+  --ease-out-quad: var(--ui-ease-out-quad);
+  --ease-out-cubic: var(--ui-ease-out-cubic);
+  --ease-out-quint: var(--ui-ease-out-quint);
+  --ease-in-out-cubic: var(--ui-ease-in-out-cubic);
+  --ease-standard: var(--ui-ease-standard);   /* popups, dialog, tooltip */
+  --ease-ui-out: var(--ui-ease-out);          /* reference ease-out (0,0,.2,1): buttons, tab indicator */
+  --ease-drawer: var(--ui-ease-drawer);       /* side drawer, 500ms */
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: var(--ui-ease-standard);
+  --default-font-feature-settings: "ss03";   /* low impact: no visible glyph change in the reference system's render */
+}
+
+@layer base {
+  html { font-feature-settings: "ss03"; }   /* parity only; low impact */
+  body { background: var(--ui-shell); color: var(--ui-fg-primary); }
+  * { border-color: var(--ui-border-default); }
+  .tabular, table, td, [data-numeric] { font-variant-numeric: tabular-nums; }
+  /* reference focus: 1px inset brand outline, no halo, no border swap. */
+  :focus-visible { outline: var(--ui-focus-width) solid var(--ui-border-focus); outline-offset: var(--ui-focus-offset); }
+  /* ss02 = slashed zero and disambiguated l/I; kbd only. */
+  kbd { font-feature-settings: "ss02"; }
+}

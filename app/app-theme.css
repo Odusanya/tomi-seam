@@ -1,0 +1,23 @@
+@theme inline {
+  --color-brand: var(--brand);
+
+  --color-ai: var(--ai-solid);
+  --color-ai-subtle: var(--ai-subtle);
+  --color-ai-border: var(--ai-border);
+  --color-ai-fg: var(--ai-fg);
+
+  --color-sev-major: var(--sev-major-solid);
+  --color-sev-major-subtle: var(--sev-major-subtle);
+  --color-sev-major-fg: var(--sev-major-fg);
+  --color-sev-minor: var(--sev-minor-solid);
+  --color-sev-minor-subtle: var(--sev-minor-subtle);
+  --color-sev-minor-fg: var(--sev-minor-fg);
+  --color-sev-obs: var(--sev-obs-solid);
+  --color-sev-obs-subtle: var(--sev-obs-subtle);
+  --color-sev-obs-fg: var(--sev-obs-fg);
+
+  /* Density: tables and lists read these, never raw px. */
+  --spacing-row-compact: 32px;
+  --spacing-row: 41px;
+  --spacing-control-compact: 24px;
+}

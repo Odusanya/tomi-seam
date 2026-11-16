@@ -1,0 +1,227 @@
+/* Semantic layer, derived from the reference system's public design system.
+   Raw tokens are --ui-*; theme.css exposes them as Tailwind utilities and
+   shadcn-bridge.css maps shadcn's variables onto them.
+   Reads --neutral-* / --brand-* (aliased in generated.css) and the fixed
+   green / orange / tomato / black-a / white-a scales (radix-scales.css). */
+
+:root, .light, .light-theme {
+  color-scheme: light;
+  /* Surfaces, back to front */
+  --ui-shell: oklch(97.3% 0 0);
+  --ui-page: #fff;
+  --ui-container: #fff;
+  --ui-container-recessed: var(--neutral-1);
+  --ui-card: var(--neutral-a2);
+  --ui-sunken: var(--black-a1);
+  --ui-modal: #fff;
+  --ui-standout: var(--neutral-12);
+  --ui-overlay: var(--black-a6); /* 40% black; dark a8 = 60%. No blur. */
+  /* Interactive fills */
+  --ui-component: var(--neutral-a3);
+  --ui-component-hover: var(--neutral-a4);
+  --ui-component-active: var(--neutral-a5);
+  --ui-component-on-sunken: #fff;
+  /* Raised white chips (secondary button, input, card). reference splits subtle/strong; they differ only in dark.
+     subtle-hover in light is assumed equal to strong-hover (not read from the CSS). */
+  --ui-component-on-container-strong: #fff;
+  --ui-component-on-container-strong-hover: var(--neutral-2);
+  --ui-component-on-container-subtle: #fff;
+  --ui-component-on-container-subtle-hover: var(--neutral-2);
+  --ui-component-on-container: var(--ui-component-on-container-strong);       /* legacy alias = strong */
+  --ui-component-on-container-hover: var(--ui-component-on-container-strong-hover);
+  --ui-ghost-hover: var(--neutral-a3);
+  --ui-ghost-active: var(--neutral-a3);
+  --ui-disabled: var(--neutral-a3);
+  /* Text */
+  --ui-fg-primary: var(--neutral-a12);
+  --ui-fg-secondary: var(--neutral-a11);
+  --ui-fg-tertiary: var(--neutral-a9);
+  --ui-fg-disabled: var(--neutral-a8);
+  --ui-on-standout: #fff;
+  --ui-on-standout-secondary: var(--white-a7);
+  /* Intents */
+  --ui-brand-solid: var(--brand-9);
+  --ui-brand-solid-hover: var(--brand-10);
+  --ui-brand-solid-active: var(--brand-11);
+  --ui-brand-subtle: var(--brand-a3);
+  --ui-brand-subtle-hover: var(--brand-a4);
+  --ui-fg-brand: var(--brand-a10);
+  --ui-on-brand-solid: #fff;
+  --ui-on-brand-subtle: var(--brand-a9);   /* light a9, dark a11 (reference) */
+  --ui-positive-solid: var(--green-9);
+  --ui-positive-solid-hover: var(--green-10);
+  --ui-positive-subtle: var(--green-a3);
+  --ui-fg-positive: var(--green-a10);
+  --ui-on-positive-solid: #fff;
+  --ui-on-positive-subtle: var(--green-a9); /* light a9, dark a11 (reference) */
+  --ui-warning-solid: var(--orange-9);
+  --ui-warning-solid-hover: var(--orange-10);
+  --ui-warning-subtle: var(--orange-a3);
+  --ui-fg-warning: var(--orange-a10);
+  --ui-on-warning-solid: #fff;
+  --ui-on-warning-subtle: var(--orange-a11);
+  --ui-danger-solid: var(--tomato-9);
+  --ui-danger-solid-hover: var(--tomato-10);
+  --ui-danger-solid-active: var(--tomato-11);
+  --ui-danger-subtle: var(--tomato-a2);
+  --ui-danger-subtle-hover: var(--tomato-a3);
+  --ui-fg-danger: var(--tomato-a10);
+  --ui-on-danger-solid: #fff;
+  --ui-on-danger-subtle: var(--tomato-a11);
+  --ui-inverted-solid: var(--black-a12);
+  --ui-inverted-solid-hover: var(--black-a10);
+  --ui-inverted-solid-active: var(--black-a9);
+  --ui-on-inverted: #fff;
+  /* Borders */
+  --ui-border-default: var(--neutral-a3);
+  --ui-border-subtle: var(--neutral-a2);
+  --ui-border-strong: var(--neutral-a6);
+  --ui-border-inverted: #000;
+  --ui-border-brand: var(--brand-a6);
+  --ui-border-focus: var(--brand-a8);
+  --ui-border-positive: var(--green-a6);
+  --ui-border-warning: var(--orange-a6);
+  --ui-border-danger: var(--tomato-a6);
+  --ui-border-danger-subtle: var(--tomato-a4);
+  /* Charts: series 1 accent, 2 neutral, then violet / teal / amber */
+  --ui-chart-1: var(--brand-9);
+  --ui-chart-2: var(--neutral-9);
+  --ui-chart-3: var(--violet-9);
+  --ui-chart-4: var(--teal-9);
+  --ui-chart-5: var(--amber-9);
+  /* Shadows: hairline ring plus soft drops; dark mode swaps drops for an inset light ring */
+  --ui-shadow-border-color: #00000012;
+  --ui-shadow-default: 0 0 0 0.5px #0000 inset, 0 0 0 0.5px #0000000f, 0 1px 1px -1px #0000001a, 0 1px 2px 0 #0000000d;
+  --ui-shadow-lg: 0 0 0 0.5px var(--neutral-a3), 0 2px 3px -2px var(--neutral-a3), 0 3px 12px -4px var(--black-a2), 0 4px 16px -8px var(--black-a1);
+  --ui-shadow-xl: 0 0 0 0.5px #0000 inset, 0 0 0 0.5px #0000000f, 0 8px 40px 0 #0000000d, 0 12px 32px -16px #00000026;
+  --ui-shadow-border: 0 0 0 1px var(--ui-shadow-border-color); /* 1px ring: toast only */
+  --ui-shadow-hairline: 0 0 0 0.5px #0000000f; /* edge alone, used by shadows: off */
+}
+
+.dark, .dark-theme {
+  color-scheme: dark;
+  --ui-shell: #000;
+  --ui-page: oklch(15% 0 0);
+  --ui-container: var(--neutral-1);
+  --ui-container-recessed: var(--neutral-1);
+  --ui-card: var(--neutral-a2);
+  --ui-sunken: var(--black-a6);
+  --ui-modal: oklch(25.2% 0 0);
+  --ui-standout: var(--neutral-3);
+  --ui-overlay: var(--black-a8);
+  --ui-component: var(--neutral-a3);
+  --ui-component-hover: var(--neutral-a4);
+  --ui-component-active: var(--neutral-a5);
+  --ui-component-on-sunken: var(--neutral-4);
+  --ui-component-on-container-strong: var(--neutral-a3);
+  --ui-component-on-container-strong-hover: var(--neutral-a4);
+  --ui-component-on-container-subtle: var(--neutral-a2);
+  --ui-component-on-container-subtle-hover: var(--neutral-a3);
+  --ui-component-on-container: var(--ui-component-on-container-strong);
+  --ui-component-on-container-hover: var(--ui-component-on-container-strong-hover);
+  --ui-ghost-hover: var(--neutral-a4);
+  --ui-ghost-active: var(--neutral-a3);
+  --ui-disabled: var(--neutral-a2);
+  --ui-fg-primary: var(--neutral-a12);
+  --ui-fg-secondary: var(--neutral-a11);
+  --ui-fg-tertiary: var(--neutral-a9);
+  --ui-fg-disabled: var(--neutral-a8);
+  --ui-on-standout: var(--neutral-a12);
+  --ui-on-standout-secondary: var(--white-a7);
+  --ui-brand-solid: var(--brand-9);
+  --ui-brand-solid-hover: var(--brand-10);
+  --ui-brand-solid-active: var(--brand-11);
+  --ui-brand-subtle: var(--brand-a3);
+  --ui-brand-subtle-hover: var(--brand-a4);
+  --ui-fg-brand: var(--brand-a10);
+  --ui-on-brand-solid: #fff;
+  --ui-on-brand-subtle: var(--brand-a11);
+  --ui-positive-solid: var(--green-9);
+  --ui-positive-solid-hover: var(--green-10);
+  --ui-positive-subtle: var(--green-a3);
+  --ui-fg-positive: var(--green-a10);
+  --ui-on-positive-solid: #fff;
+  --ui-on-positive-subtle: var(--green-a11);
+  --ui-warning-solid: var(--orange-9);
+  --ui-warning-solid-hover: var(--orange-10);
+  --ui-warning-subtle: var(--orange-a3);
+  --ui-fg-warning: var(--orange-a10);
+  --ui-on-warning-solid: #fff;
+  --ui-on-warning-subtle: var(--orange-a11);
+  --ui-danger-solid: var(--tomato-9);
+  --ui-danger-solid-hover: var(--tomato-10);
+  --ui-danger-solid-active: var(--tomato-11);
+  --ui-danger-subtle: var(--tomato-a2);
+  --ui-danger-subtle-hover: var(--tomato-a3);
+  --ui-fg-danger: var(--tomato-a10);
+  --ui-on-danger-solid: #fff;
+  --ui-on-danger-subtle: var(--tomato-a11);
+  --ui-inverted-solid: var(--white-a12);
+  --ui-inverted-solid-hover: var(--white-a10);
+  --ui-inverted-solid-active: var(--white-a9);
+  --ui-on-inverted: #000;
+  --ui-border-default: var(--neutral-a3);
+  --ui-border-subtle: var(--neutral-a2);
+  --ui-border-strong: var(--neutral-a6);
+  --ui-border-inverted: #fff;
+  --ui-border-brand: var(--brand-a6);
+  --ui-border-focus: var(--brand-a9);
+  --ui-border-positive: var(--green-a6);
+  --ui-border-warning: var(--orange-a6);
+  --ui-border-danger: var(--tomato-a6);
+  --ui-border-danger-subtle: var(--tomato-a4);
+  --ui-chart-1: var(--brand-9);
+  --ui-chart-2: var(--neutral-9);
+  --ui-chart-3: var(--violet-9);
+  --ui-chart-4: var(--teal-9);
+  --ui-chart-5: var(--amber-9);
+  --ui-shadow-border-color: #ffffff12;
+  --ui-shadow-default: 0 0 0 0.5px #ffffff12 inset, 0 0 0 0.5px #0000, 0 1px 1px -1px #0000, 0 1px 2px 0 #0000;
+  --ui-shadow-lg: 0 0 0 1px var(--neutral-a6), 0 2px 3px -2px var(--black-a3), 0 3px 8px -2px var(--black-a6), 0 4px 12px -4px var(--black-a7);
+  --ui-shadow-xl: 0 0 0 0.5px #ffffff12 inset, 0 0 0 0.5px #0000, 0 8px 40px 0 #0000000d, 0 12px 32px -16px #00000026;
+  --ui-shadow-border: 0 0 0 1px var(--ui-shadow-border-color);
+  --ui-shadow-hairline: 0 0 0 0.5px #ffffff12 inset; /* dark: drops off, 7% white inner line */
+}
+
+/* Scale-independent tokens. Radius follows the reference system's ladder; the factor comes from generated.css. */
+:root {
+  --ui-radius-xs: calc(2px * var(--ui-radius-factor, 1));
+  --ui-radius-sm: calc(4px * var(--ui-radius-factor, 1));
+  --ui-radius-md: calc(6px * var(--ui-radius-factor, 1));
+  --ui-radius-lg: calc(8px * var(--ui-radius-factor, 1));
+  --ui-radius-xl: calc(10px * var(--ui-radius-factor, 1));
+  --ui-radius-2xl: calc(12px * var(--ui-radius-factor, 1));
+  --ui-radius-3xl: calc(16px * var(--ui-radius-factor, 1));
+  --ui-radius-4xl: calc(20px * var(--ui-radius-factor, 1));
+  --ui-radius-5xl: calc(24px * var(--ui-radius-factor, 1));
+  --ui-ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ui-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ui-ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+  --ui-ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ui-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);   /* popups, dialog, tooltip, overlay */
+  --ui-ease-out: cubic-bezier(0, 0, 0.2, 1);          /* reference --ease-out: buttons, tab indicator */
+  --ui-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);   /* vaul drawer, 500ms */
+  --ui-hairline: 0.5px;                               /* dividers, row borders, kbd */
+  --ui-focus-width: 1px;                              /* inset outline, offset -1px, colour --ui-border-focus */
+  --ui-focus-offset: -1px;
+  --ui-duration-fast: 100ms;
+  --ui-duration-base: 150ms;
+  --ui-duration-moderate: 200ms;
+  --ui-duration-slow: 300ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --ui-duration-fast: 0ms; --ui-duration-base: 0ms; --ui-duration-moderate: 0ms; --ui-duration-slow: 0ms; }
+}
+
+@media (prefers-contrast: more) {
+  :root, .light, .dark {
+    --ui-fg-secondary: var(--neutral-a12);
+    --ui-fg-tertiary: var(--neutral-a11);
+    --ui-fg-disabled: var(--neutral-a11);
+    --ui-border-default: var(--neutral-a7);
+    --ui-border-subtle: var(--neutral-a6);
+    --ui-border-strong: var(--neutral-a8);
+    --ui-border-focus: var(--brand-a11);
+  }
+}

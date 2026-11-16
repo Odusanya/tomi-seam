@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "../styles/tokens/radix-scales.css";
+@import "../styles/tokens/semantic.css";
+@import "../styles/tokens/generated.css";
+@import "../styles/tokens/shadcn-bridge.css";
+@import "../styles/tokens/theme.css";
+@import "./app-tokens.css";
+@import "./app-theme.css";
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scrollbar-color: var(--border) transparent;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--brand) 25%, transparent);
+  }
+}

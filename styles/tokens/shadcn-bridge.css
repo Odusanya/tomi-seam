@@ -1,0 +1,51 @@
+/* shadcn/ui variables mapped onto the --ui-* semantic tokens, so stock shadcn
+   components (and Base UI ones styled with shadcn classes) pick up the style.
+   Delete the starter's own :root / .dark colour blocks and its @theme inline
+   radius maths; this file and theme.css replace them.
+   Declared on every theme scope so nested .light / .dark panels re-resolve. */
+
+:root, .light, .light-theme, .dark, .dark-theme {
+  /* Container, not page: shadcn's SidebarInset and page surfaces use bg-background,
+     and in dark mode the page tone (15% L) nearly disappears on the black shell. */
+  --background: var(--ui-container);
+  --foreground: var(--ui-fg-primary);
+  /* reference cards are translucent (neutral-a2); shadcn cards must be opaque
+     because popovers and sticky headers sit on them, so use the container. */
+  --card: var(--ui-container);
+  --card-foreground: var(--ui-fg-primary);
+  --popover: var(--ui-modal);
+  --popover-foreground: var(--ui-fg-primary);
+  /* theme.config primary: inverted (the reference system's black/white button) or brand */
+  --primary: var(--ui-primary);
+  --primary-foreground: var(--ui-on-primary);
+  --secondary: var(--ui-component);
+  --secondary-foreground: var(--ui-fg-primary);
+  --muted: var(--ui-component);
+  --muted-foreground: var(--ui-fg-secondary);
+  --accent: var(--ui-component-hover);
+  --accent-foreground: var(--ui-fg-primary);
+  --destructive: var(--ui-danger-solid);
+  --destructive-foreground: var(--ui-on-danger-solid);
+  --border: var(--ui-border-default);
+  --input: var(--ui-border-strong);
+  --ring: var(--ui-border-focus);
+  --chart-1: var(--ui-chart-1);
+  --chart-2: var(--ui-chart-2);
+  --chart-3: var(--ui-chart-3);
+  --chart-4: var(--ui-chart-4);
+  --chart-5: var(--ui-chart-5);
+  /* Sidebar sits directly on the shell; content floats on a container. */
+  --sidebar: var(--ui-shell);
+  --sidebar-foreground: var(--ui-fg-secondary);
+  --sidebar-primary: var(--ui-primary);
+  --sidebar-primary-foreground: var(--ui-on-primary);
+  --sidebar-accent: var(--ui-component);
+  --sidebar-accent-foreground: var(--ui-fg-primary);
+  --sidebar-border: var(--ui-border-default);
+  --sidebar-ring: var(--ui-border-focus);
+}
+
+/* shadcn's base radius = reference lg (8px) times the config factor. */
+:root {
+  --radius: var(--ui-radius-lg);
+}
