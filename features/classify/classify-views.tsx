@@ -192,8 +192,10 @@ export function SubjectView({
   step?: string
   result?: ClassificationResult
 }) {
+  // A touch narrower than the dialog and centred, so the photo does not crowd it. The HUD and
+  // footer share the column, so their edges stay on the frame's.
   return (
-    <>
+    <div className="mx-auto flex w-full flex-col gap-3 sm:w-5/6">
       <Hud>
         <output>
           {result ? (
@@ -224,6 +226,6 @@ export function SubjectView({
           {result ? <Actions onReset={onReset} onDone={onDone} resetRef={resetRef} /> : null}
         </div>
       </Below>
-    </>
+    </div>
   )
 }

@@ -7,6 +7,7 @@ import { Arc } from "loading-dev"
 import type { ReactNode } from "react"
 
 import { Thumbnail } from "@/components/domain/thumbnail"
+import { VerdictBadge } from "@/components/domain/verdict-badge"
 import { VERDICT_GLYPH } from "@/components/domain/verdict-mark"
 import { Button } from "@/components/ui/button"
 import {
@@ -84,11 +85,18 @@ function Details({
       </SheetHeader>
 
       <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-6">
-        <Thumbnail
-          src={row.thumbnail}
-          alt={`Classified image ${row.id}`}
-          size="hero"
-        />
+        <div className="relative">
+          <Thumbnail
+            src={row.thumbnail}
+            alt={`Classified image ${row.id}`}
+            size="hero"
+          />
+          <VerdictBadge
+            verdict={row.verdict}
+            aria-hidden
+            className="absolute top-3 left-3"
+          />
+        </div>
 
         <dl className="flex flex-col divide-y divide-line-default">
           <Property label="Status">
@@ -176,7 +184,7 @@ export function HistoryDetailSheet({
 }: Props) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right">
+      <SheetContent side="right" size="lg">
         {row ? <Details row={row} {...actions} /> : null}
       </SheetContent>
     </Sheet>

@@ -3,7 +3,7 @@
 // Copies a classification ID, the value people paste into tickets and searches. The tooltip
 // says what the button does, then confirms the copy (or says it failed) for a moment.
 import { CheckIcon, CopyIcon } from "lucide-react"
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 import { RowReveal } from "@/components/domain/row-reveal"
 import { Button } from "@/components/ui/button"
@@ -25,6 +25,7 @@ const CONFIRM_MS = 1500
 
 export function CopyIdButton({ id }: { id: string }) {
   const [state, setState] = useState<CopyState>("idle")
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   async function copy() {
     try {
@@ -33,7 +34,9 @@ export function CopyIdButton({ id }: { id: string }) {
     } catch {
       setState("failed")
     }
-    setTimeout(() => setState("idle"), CONFIRM_MS)
+    // A second click restarts the confirmation instead of being cut short by the first timer.
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => setState("idle"), CONFIRM_MS)
   }
 
   return (

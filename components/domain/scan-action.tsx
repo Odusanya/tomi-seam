@@ -12,7 +12,7 @@ const scanActionVariants = cva(
   "inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-2xl px-4 text-body-sm font-medium whitespace-nowrap transition-colors duration-150 group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:px-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring motion-reduce:transition-none md:h-9",
   {
     variants: {
-      tone: { ink: "bg-ink-solid text-on-inverted hover:bg-ink-solid-hover" },
+      tone: { ink: "cursor-pointer bg-ink-solid text-on-inverted hover:bg-ink-solid-hover" },
     },
     defaultVariants: { tone: "ink" },
   },
