@@ -50,9 +50,9 @@
   --ink-solid-hover: #2e2e2e;
 }
 
-/* Use the fonts that next/font loads (layout.tsx), not system fallbacks. */
+/* Use the Paper Mono that next/font loads (layout.tsx), not a system fallback.
+   Sans stays the Inter stack from generated.css. */
 :root {
-  --ui-font-sans: var(--font-roobert), "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
   --ui-font-mono: var(--font-paper-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 

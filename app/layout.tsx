@@ -14,15 +14,6 @@ import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
-// Roobert variable (TRIAL licence, see DECISIONS.md). Axes: wght 300-900, slnt, MONO.
-const fontRoobert = localFont({
-  src: "./fonts/RoobertVF-TRIAL.woff2",
-  variable: "--font-roobert",
-  weight: "300 900",
-  style: "normal",
-  display: "swap",
-})
-
 // Mono: Paper Mono (OFL).
 const fontPaperMono = localFont({
   src: "./fonts/PaperMono-VF.woff2",
@@ -41,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={cn("antialiased", fontRoobert.variable, fontPaperMono.variable, "font-sans")}>
+    <html lang="en" suppressHydrationWarning className={cn("antialiased", fontPaperMono.variable, "font-sans")}>
       <body>
         <ThemeProvider>
           <TooltipProvider>

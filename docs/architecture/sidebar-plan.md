@@ -189,7 +189,6 @@ No commit carries an AI co-author trailer. Nobody commits or deploys without you
 | Mark radius 5 | 4 (`rounded-sm`) | No 5 px radius token |
 | Rail avatar 20 | 16 | One size for both states |
 | "Technical files" label is `fg-primary` | `fg-secondary` like its siblings | Looks like a slip in Paper |
-| Inter | Roobert | App font; text widths differ slightly |
 
 ## 9. Risks and open questions
 
