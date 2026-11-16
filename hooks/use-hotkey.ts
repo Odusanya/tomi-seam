@@ -12,25 +12,28 @@ function isTypingTarget(target: EventTarget | null) {
 }
 
 /**
- * Single-key shortcut (e.g. "j", "a", "/", "?"). Ignored while typing unless
- * allowInInputs. Effect is allowed here: it syncs with an external system (window keys).
+ * Shortcut: a single key ("j", "/", "?", "Escape") or "mod+k" (⌘K / Ctrl+K).
+ * Plain keys are ignored while typing unless allowInInputs; mod combos always fire. Effect is allowed here: it syncs with an external system (window keys).
  */
 export function useHotkey(key: string, handler: (event: KeyboardEvent) => void, options: Options = {}) {
   const { enabled = true, allowInInputs = false } = options
   const onKey = useEffectEvent(handler)
+  const wantsMod = key.startsWith("mod+")
+  const wanted = wantsMod ? key.slice(4) : key
 
   useEffect(() => {
     if (!enabled) {
       return
     }
     function onKeyDown(event: KeyboardEvent) {
+      const hasMod = event.metaKey || event.ctrlKey
       const blocked =
         event.defaultPrevented ||
-        event.metaKey ||
-        event.ctrlKey ||
         event.altKey ||
-        (!allowInInputs && isTypingTarget(event.target))
-      if (blocked || event.key !== key) {
+        hasMod !== wantsMod ||
+        (!wantsMod && !allowInInputs && isTypingTarget(event.target))
+      const pressed = wantsMod ? event.key.toLowerCase() : event.key
+      if (blocked || pressed !== wanted) {
         return
       }
       event.preventDefault()
@@ -38,5 +41,5 @@ export function useHotkey(key: string, handler: (event: KeyboardEvent) => void, 
     }
     window.addEventListener("keydown", onKeyDown)
     return () => window.removeEventListener("keydown", onKeyDown)
-  }, [key, enabled, allowInInputs])
+  }, [wanted, wantsMod, enabled, allowInInputs])
 }
