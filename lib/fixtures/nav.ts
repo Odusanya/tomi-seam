@@ -6,7 +6,7 @@ import {
   ClockIcon,
   CubeIcon,
   KeyIcon,
-  ViewfinderCircleIcon,
+  Squares2X2Icon,
 } from "@heroicons/react/16/solid"
 
 export type NavItem = {
@@ -26,12 +26,15 @@ export const currentUser = { name: "Tomi Odusanya", initials: "TO" }
 
 export const SOON_TOOLTIP = "Not available in the sandbox"
 
+// "How it works" video in the Classify dialog: the SeeFood scene, starting at 1:14.
+export const HOW_IT_WORKS_URL = "https://www.youtube.com/watch?v=tWwCK95X6go&t=74s"
+
 export const navGroups: NavGroup[] = [
   {
     id: "workspace",
     label: "Workspace",
     items: [
-      { id: "classify", title: "Classify", href: "/", icon: ViewfinderCircleIcon },
+      { id: "overview", title: "Overview", href: "/overview", icon: Squares2X2Icon },
       { id: "history", title: "History", href: "/history", icon: ClockIcon },
     ],
   },

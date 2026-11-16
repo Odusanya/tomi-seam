@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { AppShell } from "@/components/app-shell"
 import { StartupToast } from "@/components/startup-toast"
 import { MobileBar } from "@/components/mobile-bar"
+import { ClassifyDialog } from "@/features/classify/classify-dialog"
 import { ScanProvider } from "@/hooks/use-scan"
 import { SidebarInset } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/sonner"
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   {children}
                 </SidebarInset>
               </AppShell>
+              <ClassifyDialog />
             </ScanProvider>
             {/* Bottom right: bottom left would cover the sidebar's user row and toggle. */}
             <Toaster position="bottom-right" />

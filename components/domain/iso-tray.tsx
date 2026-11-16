@@ -75,7 +75,9 @@ function slab(rect: Rect, z: number, h: number) {
 
 // Radii in world units. The illustration renders at about 0.8 px per unit, so these land near
 // the theme's radius-lg (8 px, the dropzone) for the tray and radius-md (6 px, tiles) for the card.
-const RADIUS = { tray: 10, card: 6, frame: 3, sun: 4 }
+// The frame is concentric with the card: its radius is the card's minus the inset.
+const INSET = 5
+const RADIUS = { tray: 10, card: 8, frame: 8 - INSET, sun: 4 }
 
 const TRAY_H = 8
 const TRAY = slab({ x: 0, y: 0, w: 100, d: 100, r: RADIUS.tray }, 0, TRAY_H)
@@ -90,7 +92,6 @@ const SHADOW_SHIFT = 8
 const SHADOW = poly(outline({ ...CARD_RECT, x: CARD_RECT.x + SHADOW_SHIFT }, TRAY_H))
 
 // The photo glyph drawn on the card's top plane: an inset frame, two peaks and a sun.
-const INSET = 6
 const { x: cx, y: cy, w: cw, d: cd } = CARD_RECT
 const FRAME = poly(outline({ x: cx + INSET, y: cy + INSET, w: cw - INSET * 2, d: cd - INSET * 2, r: RADIUS.frame }, CARD_TOP))
 const near = cy + cd - INSET
@@ -105,7 +106,7 @@ const SUN = poly(outline({ x: cx + 38, y: cy + 8, w: RADIUS.sun * 2, d: RADIUS.s
 
 const FACE_FILL = { left: "fill-component-active stroke-component-active", right: "fill-component stroke-component" }
 
-const cardVariants = cva("transition-colors duration-150 motion-reduce:transition-none", {
+const cardVariants = cva("transition-colors duration-150 ease-out motion-reduce:transition-none", {
   variants: {
     state: {
       idle: "fill-page stroke-fg-tertiary",
@@ -116,9 +117,20 @@ const cardVariants = cva("transition-colors duration-150 motion-reduce:transitio
   defaultVariants: { state: "idle" },
 })
 
+// While a file is over the dropzone the card settles toward the tray: a CSS transition, so it
+// retargets cleanly if the drag leaves halfway.
+const liftVariants = cva("transition-transform duration-150 ease-out motion-reduce:transition-none", {
+  variants: {
+    state: { idle: "translate-y-0", dragging: "translate-y-1", rejected: "translate-y-0" },
+  },
+  defaultVariants: { state: "idle" },
+})
+
 type Props = VariantProps<typeof cardVariants>
 
 const STROKE = 0.75
+// Silhouettes are softened so the shape reads by its faces, not by a hard outline.
+const EDGE_OPACITY = 0.6
 const SEAM = 0.4
 
 function Sides({ sides }: { sides: Side[] }) {
@@ -135,19 +147,23 @@ export function IsoTray({ state }: Props) {
   return (
     <svg aria-hidden viewBox="-90 -14 180 118" className="h-auto w-36" strokeLinejoin="round" strokeLinecap="round">
       <Sides sides={TRAY.sides} />
-      <g className="fill-none stroke-fg-tertiary" strokeWidth={STROKE}>
-        <polyline points={TRAY.edge} />
+      <g className="stroke-fg-tertiary" strokeWidth={STROKE} strokeOpacity={EDGE_OPACITY}>
+        <polyline points={TRAY.edge} className="fill-none" />
+        <polygon points={TRAY.top} className="fill-page" />
       </g>
-      <polygon points={TRAY.top} className="fill-page stroke-fg-tertiary" strokeWidth={STROKE} />
       <polygon points={SHADOW} className="fill-component-hover" />
-      <Sides sides={CARD.sides} />
-      <g className={cardVariants({ state })} strokeWidth={STROKE}>
-        <polyline points={CARD.edge} fill="none" />
-        <polygon points={CARD.top} />
-        <g fill="none">
-          <polygon points={FRAME} />
-          <polyline points={PEAKS} />
-          <polygon points={SUN} />
+      <g className={liftVariants({ state })}>
+        <Sides sides={CARD.sides} />
+        <g className={cardVariants({ state })} strokeWidth={STROKE}>
+          <g strokeOpacity={EDGE_OPACITY}>
+            <polyline points={CARD.edge} fill="none" />
+            <polygon points={CARD.top} />
+          </g>
+          <g fill="none">
+            <polygon points={FRAME} />
+            <polyline points={PEAKS} />
+            <polygon points={SUN} />
+          </g>
         </g>
       </g>
     </svg>
