@@ -2,8 +2,8 @@
 import { cva, type VariantProps } from "class-variance-authority"
 import type { ComponentProps } from "react"
 
-import { cn } from "@/lib/utils"
-
+// cva joins classes without merging. The merge helper reads `text-caption-*` as a colour and drops it
+// next to `text-fg-*`, which left both chips at 13 px.
 const initialsVariants = cva("inline-flex shrink-0 items-center justify-center", {
   variants: {
     kind: {
@@ -19,7 +19,7 @@ type Props = Omit<ComponentProps<"span">, "children"> &
 
 export function Initials({ kind, className, children, ...props }: Props) {
   return (
-    <span aria-hidden className={cn(initialsVariants({ kind }), className)} {...props}>
+    <span aria-hidden className={initialsVariants({ kind, className })} {...props}>
       {children}
     </span>
   )
