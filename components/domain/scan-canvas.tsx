@@ -7,9 +7,9 @@ import { ShaderMount } from "@paper-design/shaders-react"
 import { SCAN_DEFAULTS, scanFragmentShader, type ScanTuning } from "@/components/domain/scan-shader"
 
 // Paper Shaders' sizing uniforms: contain the image, centred, no transform.
+// u_scale comes from the tuning, so the photo can sit smaller inside the black stage.
 const SIZING = {
   u_fit: 1,
-  u_scale: 1,
   u_rotation: 0,
   u_originX: 0.5,
   u_originY: 0.5,
@@ -35,7 +35,7 @@ export function ScanCanvas({
   return (
     <ShaderMount
       aria-hidden
-      className="aspect-3/2 w-full max-w-3xl"
+      className="aspect-3/2 w-full max-w-2xl"
       fragmentShader={scanFragmentShader}
       uniforms={{ u_image: src, ...SIZING, ...tuning }}
       mipmaps={["u_image"]}

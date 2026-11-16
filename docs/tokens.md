@@ -10,6 +10,14 @@ Change a product value in **`styles/tokens/product.css`**. Nothing else holds pr
 
 Components use names only (`text-body-sm`, `bg-sev-major`, `h-row`), so a value change reaches every screen.
 
+## `--scan-stage`: the one raw colour
+
+`--scan-stage` is `#000` and maps to `bg-scan-stage`. Only the analysing stage (`components/domain/scan-stage.tsx`) uses it.
+
+- **Why pure black:** the scan shader paints everything outside the subject black. The stage must match it exactly, or the canvas shows as a rectangle.
+- **Why not `bg-inverted-solid`:** that is `--black-a12`, which is translucent. The page behind would show through and the stage would no longer match the canvas.
+- **Don't reuse it** for other dark surfaces. Use `bg-inverted-solid` for those.
+
 ## Swapping to Paper later
 
 When the Paper tokens are final:
