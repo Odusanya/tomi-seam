@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import "@fontsource-variable/inter"
-import { Geist_Mono } from "next/font/google"
 import localFont from "next/font/local"
 
 import "./globals.css"
@@ -12,8 +11,6 @@ import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
-const fontMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })
-
 // Roobert variable (TRIAL licence, see DECISIONS.md). Axes: wght 300-900, slnt, MONO.
 const fontRoobert = localFont({
   src: "./fonts/RoobertVF-TRIAL.woff2",
@@ -23,7 +20,7 @@ const fontRoobert = localFont({
   display: "swap",
 })
 
-// Opt-in mono: ?mono=paper. Geist stays the default.
+// Mono: Paper Mono (OFL).
 const fontPaperMono = localFont({
   src: "./fonts/PaperMono-VF.woff2",
   variable: "--font-paper-mono",
@@ -31,9 +28,6 @@ const fontPaperMono = localFont({
   style: "normal",
   display: "swap",
 })
-
-// Static page, so the query is read on the client before paint; no searchParams here.
-const monoScript = `if(new URLSearchParams(location.search).get("mono")==="paper")document.documentElement.dataset.mono="paper"`
 
 // Rename on the day to the product in the brief.
 export const metadata: Metadata = {
@@ -44,10 +38,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={cn("antialiased", fontMono.variable, fontRoobert.variable, fontPaperMono.variable, "font-sans")}>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: monoScript }} />
-      </head>
+    <html lang="en" suppressHydrationWarning className={cn("antialiased", fontRoobert.variable, fontPaperMono.variable, "font-sans")}>
       <body>
         <ThemeProvider>
           <TooltipProvider>
