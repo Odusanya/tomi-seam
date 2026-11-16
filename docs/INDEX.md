@@ -19,4 +19,5 @@ This repo carries only short rules. Long-form context lives here:
 Paths are relative to this repo at `~/zone/sites/projects/tomi-design-engineer`.
 
 - [Tokens: one place to change](tokens.md)
+- [Library reference notes](../notes/README.md)
 - `AIMark` (`components/domain/ai-mark.tsx`) marks AI output; `useFakeAI` (`hooks/use-fake-ai.ts`) fakes a running AI job with narration.

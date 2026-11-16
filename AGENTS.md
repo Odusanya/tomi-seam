@@ -47,6 +47,7 @@ L2 pieces (a data table, a property list) start inside their feature. Move one t
 - Density: rows 36 px, compact 32 px (`<Table data-density="compact">`), header 32 px. One line height per size (13/20). `data-interactive` on a `TableRow` gives it hover. Toolbar and row buttons are `size="sm"` (28 px), `size="xs"` (24 px) in compact rows.
 - Light theme only.
 - Rules and their reasons: `DESIGN.md`. Short checklists: `docs/yardsticks/`. More context: `docs/INDEX.md`.
+- Library reference notes: `notes/`.
 
 ## 4. Check your work
 
