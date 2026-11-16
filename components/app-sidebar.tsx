@@ -3,12 +3,11 @@
 import type { ComponentProps } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronUpDownIcon, MagnifyingGlassIcon } from "@heroicons/react/16/solid"
+import { ChevronUpDownIcon } from "@heroicons/react/16/solid"
 
 import { Initials } from "@/components/domain/initials"
 import { NavCard } from "@/components/domain/nav-card"
-import { Button } from "@/components/ui/button"
-import { Kbd } from "@/components/ui/kbd"
+import { SoonPill } from "@/components/domain/soon-pill"
 import {
   Sidebar,
   SidebarContent,
@@ -25,7 +24,7 @@ import { currentUser, navFooter, navGroups, SOON_TOOLTIP, workspace, type NavIte
 
 // Unavailable item: a focusable button with aria-disabled (not a link), a "Soon" tag,
 // and a tooltip that shows in both expanded and collapsed states.
-function SoonRow({ item }: { item: NavItem }) {
+function SoonRow({ item, tagged }: { item: NavItem; tagged: boolean }) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
@@ -37,14 +36,15 @@ function SoonRow({ item }: { item: NavItem }) {
         <item.icon />
         <span>{item.title}</span>
       </SidebarMenuButton>
-      <SidebarMenuBadge>Soon</SidebarMenuBadge>
+      {tagged ? <SidebarMenuBadge>Soon</SidebarMenuBadge> : null}
     </SidebarMenuItem>
   )
 }
 
-function NavRow({ item, pathname }: { item: NavItem; pathname: string }) {
+// `groupSoon`: the whole group is unavailable, so its label carries one "Soon" pill and rows drop theirs.
+function NavRow({ item, pathname, groupSoon }: { item: NavItem; pathname: string; groupSoon: boolean }) {
   if (item.soon) {
-    return <SoonRow item={item} />
+    return <SoonRow item={item} tagged={!groupSoon} />
   }
   const active = item.href !== "#" && pathname === item.href
   return (
@@ -76,49 +76,59 @@ export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant="sidebar" collapsible="icon" {...props}>
       <NavCard variant="header">
-        <div className="flex items-center group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:gap-0.5">
-          <SidebarMenu className="min-w-0 flex-1">
-            <SidebarMenuItem>
-              <SidebarMenuButton tooltip={workspace.name}>
-                <Initials kind="workspace">{workspace.initial}</Initials>
-                <span className="font-medium text-fg-primary">{workspace.name}</span>
-                <ChevronUpDownIcon className="ml-auto text-fg-tertiary" />
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-          <SidebarTrigger />
-        </div>
-        <Button variant="secondary" size="sm" aria-label="Search">
-          <MagnifyingGlassIcon />
-          <span className="flex-1 text-left text-fg-tertiary group-data-[collapsible=icon]:hidden">Search</span>
-          <Kbd className="group-data-[collapsible=icon]:hidden">⌘K</Kbd>
-        </Button>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton tooltip={workspace.name}>
+              <Initials kind="workspace">{workspace.initial}</Initials>
+              <span className="font-medium text-fg-primary">{workspace.name}</span>
+              <ChevronUpDownIcon className="ml-auto text-fg-tertiary" />
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </NavCard>
       <SidebarContent>
-        {navGroups.map((group) => (
-          <NavCard key={group.id} variant="group">
-            {group.label ? <SidebarGroupLabel>{group.label}</SidebarGroupLabel> : null}
-            <SidebarMenu>
-              {group.items.map((item) => (
-                <NavRow key={item.id} item={item} pathname={pathname} />
-              ))}
-            </SidebarMenu>
-          </NavCard>
-        ))}
+        {navGroups.map((group) => {
+          const groupSoon = group.items.every((item) => item.soon)
+          return (
+            <NavCard key={group.id} variant="group">
+              {group.label ? (
+                <SidebarGroupLabel>
+                  <span className="flex items-center gap-1.5">
+                    {group.label}
+                    {groupSoon ? <SoonPill /> : null}
+                  </span>
+                </SidebarGroupLabel>
+              ) : null}
+              <SidebarMenu>
+                {group.items.map((item) => (
+                  <NavRow key={item.id} item={item} pathname={pathname} groupSoon={groupSoon} />
+                ))}
+              </SidebarMenu>
+            </NavCard>
+          )
+        })}
       </SidebarContent>
       <SidebarFooter>
         <NavCard variant="footer">
           <SidebarMenu>
             {navFooter.map((item) => (
-              <NavRow key={item.id} item={item} pathname={pathname} />
+              <NavRow key={item.id} item={item} pathname={pathname} groupSoon={false} />
             ))}
-            <SidebarMenuItem>
-              <SidebarMenuButton size="sm" tooltip={currentUser.name}>
-                <Initials kind="user">{currentUser.initials}</Initials>
-                <span className="text-fg-primary">{currentUser.name}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
           </SidebarMenu>
+          {/* User row with the sidebar toggle at the bottom right; they stack in the rail. */}
+          <div className="flex items-center group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:items-start group-data-[collapsible=icon]:gap-1">
+            <SidebarMenu className="min-w-0 flex-1">
+              <SidebarMenuItem>
+                <SidebarMenuButton size="sm" tooltip={currentUser.name}>
+                  <Initials kind="user">{currentUser.initials}</Initials>
+                  <span className="text-fg-primary">{currentUser.name}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+            <span className="mr-0.5 flex group-data-[collapsible=icon]:mr-0 group-data-[collapsible=icon]:ml-0.5">
+              <SidebarTrigger />
+            </span>
+          </div>
         </NavCard>
       </SidebarFooter>
       <SidebarRail />
