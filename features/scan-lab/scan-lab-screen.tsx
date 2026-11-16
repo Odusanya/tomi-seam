@@ -6,6 +6,7 @@ import { AnimatePresence } from "motion/react"
 import { useState } from "react"
 import { toast } from "sonner"
 
+import { CopyButton } from "@/components/domain/copy-button"
 import { PageBody, PageHeader } from "@/components/domain/page-header"
 import { ScanCanvas } from "@/components/domain/scan-canvas"
 import {
@@ -112,20 +113,8 @@ export function ScanLabScreen() {
   const set = (key: keyof ScanTuning, value: number) =>
     setTuning((current) => ({ ...current, [key]: value }))
 
-  async function copyValues() {
-    const text = JSON.stringify(
-      { sample: sample.label, speed, ...tuning },
-      null,
-      2
-    )
-    try {
-      await navigator.clipboard.writeText(text)
-      toast.success("Scan values copied")
-    } catch {
-      toast.error("Couldn't copy. The values are in the console.")
-      console.warn(text)
-    }
-  }
+  const values = () =>
+    JSON.stringify({ sample: sample.label, speed, ...tuning }, null, 2)
 
   return (
     <main className="flex min-w-0 flex-1 flex-col">
@@ -218,9 +207,17 @@ export function ScanLabScreen() {
               >
                 Play in modal
               </Button>
-              <Button size="sm" variant="outline" onClick={copyValues}>
+              <CopyButton
+                value={values}
+                label="Copy values"
+                variant="outline"
+                onFail={(text) => {
+                  toast.error("Couldn't copy. The values are in the console.")
+                  console.warn(text)
+                }}
+              >
                 Copy values
-              </Button>
+              </CopyButton>
               <Button
                 size="sm"
                 variant="ghost"
