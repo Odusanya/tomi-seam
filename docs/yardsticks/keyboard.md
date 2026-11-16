@@ -10,6 +10,6 @@
 | `?` | Shortcut sheet |
 | `⌘K` | Command palette |
 
-- Use `useHotkey()` from `hooks/use-hotkey.ts`; it ignores keys while typing.
+- Use `useHotkey()` from `hooks/use-hotkey.ts`; it ignores keys while typing. `useHotkey("mod+k", …)` is ⌘K / Ctrl+K and fires while typing.
 - Show the key (`<Kbd>`) next to the action when it has focus.
 - Focus moves with `j`/`k`; the focused row scrolls into view.

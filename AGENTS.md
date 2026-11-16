@@ -17,7 +17,7 @@ A time-boxed prototype (about 3 hours). It is judged on design quality, density,
 - Data lives in `lib/fixtures/` as typed arrays. Pages import it directly.
 - UI state is `useState`, `useReducer` or the URL. That is enough.
 - Do NOT add APIs, route handlers, databases, persistence, auth, stores (Zustand, Redux), validation layers, generic state machines, data-fetching libraries or tests, unless the user asks.
-- Fixtures are deterministic: use `prng()` and `DEMO_NOW` from `lib/fixtures/prng.ts`. Never `Math.random()` or `Date.now()`.
+- Fixtures are deterministic: use `prng()` and `DEMO_NOW` from `lib/fixtures/prng.ts`. Never `Math.random()` or `Date.now()`. Lint blocks both.
 - To show latency or a failure, use `fakeAI()` from `lib/fixtures/fake-ai.ts`. Nothing more.
 - If a feature needs real logic to look right, fake the result in a fixture and say so in your report.
 
@@ -25,19 +25,24 @@ A time-boxed prototype (about 3 hours). It is judged on design quality, density,
 
 | Folder | Layer | Rule |
 |---|---|---|
-| `components/ui/` | L1 primitives | shadcn (`base-rhea`: Base UI, not Radix). Add with `npx shadcn@latest add <name>`. Don't hand-edit unless asked |
+| `components/ui/` | L1 primitives | shadcn (`base-rhea`: Base UI, not Radix). Add with `npx shadcn@latest add <name>`. Don't hand-edit unless asked. Exception: `table.tsx` is edited to read the density tokens, so `npx shadcn add table` would overwrite it |
 | `components/domain/` | L3 atoms | SeverityBadge, ClauseRef, Citation and so on. Variants via `cva`, colours via tokens |
 | `features/<name>/` | L4–L5 | One folder per screen or composite. Each owns its own state |
 | `lib/fixtures/` | data | Typed dummy data and the helpers above |
-| `hooks/` | effects | The only place `useEffect` is allowed (external systems such as keys and media queries). `use-hotkey.ts` covers shortcuts |
+| `hooks/` | effects | The only place `useEffect` is allowed (external systems such as keys and media queries). `use-hotkey.ts` covers shortcuts (`"j"`, `"mod+k"`) |
 
-Imports flow down only: `app` → `features` → `domain` → `ui`.
+Imports flow down only: `app` → `features` → `domain` → `ui`. Lint enforces it.
+
+L2 pieces (a data table, a property list) start inside their feature. Move one to `components/domain/` when a second screen uses it.
+
+`@tanstack/react-table` 9 is installed for sorting and selection. Its API is not v8: read the types in `node_modules/@tanstack/react-table` first.
 
 ## 3. Styling
 
 - Use variants, sizes and tokens. Never restyle a component with `className`; lint enforces this. If a treatment is missing, make an L3 atom with a variant.
 - Colours come from tokens only: `text-fg-*`, `bg-sev-*`, `bg-ai-*`, `border-line-*`. No palette classes, no hex, no `dark:`.
-- Type: `text-body-sm` (13), `text-caption-lg` (12), `text-caption-base` (11). Not `text-sm`.
+- Type: `text-body-sm` (13), `text-caption-lg` (12), `text-caption-base` (11). Not `text-sm`, `text-xs` or `text-xl`.
+- Density: rows 36 px, compact 32 px (`<Table data-density="compact">`), header 32 px. One line height per size (13/20). `data-interactive` on a `TableRow` gives it hover. Toolbar and row buttons are `size="sm"` (28 px), `size="xs"` (24 px) in compact rows.
 - Light theme only.
 - Rules and their reasons: `DESIGN.md`. Short checklists: `docs/yardsticks/`. More context: `docs/INDEX.md`.
 
