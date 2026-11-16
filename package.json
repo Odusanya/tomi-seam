@@ -12,11 +12,14 @@
     "lint:deprecated": "oxlint --type-aware -A all -D typescript/no-deprecated --ignore-pattern \"components/ui/**\" app components lib hooks",
     "lint:fix": "oxlint --fix",
     "format": "prettier --write \"**/*.{ts,tsx,css,md}\"",
-    "check": "npm run typecheck && npm run lint && npm run build"
+    "check": "npm run typecheck && npm run lint && npm run build",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
     "@fontsource-variable/inter": "^5.3.0",
+    "@opennextjs/cloudflare": "^1.20.17",
     "@radix-ui/colors": "^3.0.0",
     "@tanstack/react-table": "^9.3.1",
     "class-variance-authority": "^0.7.1",
@@ -48,7 +51,12 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "shadcn": "^4.23.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.163.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261116.1": true
   },
   "engines": {
     "node": ">=20.19"
