@@ -1,6 +1,4 @@
 @theme inline {
-  --color-brand: var(--brand);
-
   --color-ai: var(--ai-solid);
   --color-ai-subtle: var(--ai-subtle);
   --color-ai-border: var(--ai-border);
@@ -18,6 +16,10 @@
 
   /* Density: tables and lists read these, never raw px. */
   --spacing-row-compact: 32px;
-  --spacing-row: 41px;
-  --spacing-control-compact: 24px;
+  --spacing-row: 36px;
+  --spacing-table-header: 32px;
+
+  /* Bridge: shadcn primitives say text-sm; the product body size is 13 px (= text-body-sm). */
+  --text-sm: 13px;
+  --text-sm--line-height: 20px;
 }
