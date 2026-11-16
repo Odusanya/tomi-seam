@@ -19,6 +19,7 @@ A time-boxed prototype (about 3 hours). It is judged on design quality, density,
 - Do NOT add APIs, route handlers, databases, persistence, auth, stores (Zustand, Redux), validation layers, generic state machines, data-fetching libraries or tests, unless the user asks.
 - Fixtures are deterministic: use `prng()` and `DEMO_NOW` from `lib/fixtures/prng.ts`. Never `Math.random()` or `Date.now()`. Lint blocks both.
 - To show latency or a failure, use `fakeAI()` from `lib/fixtures/fake-ai.ts`. Nothing more.
+- In components use `useFakeAI()` (`hooks/use-fake-ai.ts`): `[state, run]`, with optional narration `steps`. Show AI status with `AIMark` (`components/domain/ai-mark.tsx`).
 - If a feature needs real logic to look right, fake the result in a fixture and say so in your report.
 
 ## 2. Where code goes (layers)

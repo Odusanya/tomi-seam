@@ -5,7 +5,7 @@
    same names, and replace the values below. Nothing else changes. See docs/tokens.md. */
 
 :root {
-  /* AI accent: machine output only. Never used for anything a person approved. */
+  /* AI accent: machine output only. Never used for anything a person accepted. */
   --ai-solid: var(--violet-9);
   --ai-subtle: var(--violet-3);
   --ai-border: var(--violet-7);

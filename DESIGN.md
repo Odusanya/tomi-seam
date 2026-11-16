@@ -4,7 +4,7 @@ Dense expert tool, light theme, quiet chrome. Data first, decoration last.
 Details live in `docs/yardsticks/`. Each rule has a reason so it can be defended.
 
 ## Human in the loop (the core)
-1. **Purple means the AI said it.** Once a person approves something, it stops being purple. → trust stays legible
+1. **Purple means the AI said it.** Once a person accepts something, it stops being purple. → trust stays legible
 2. **No citation, no accept.** Accept is disabled with a hint until a source exists. → nothing unverifiable becomes final
 3. **Overriding the AI needs a reason**, and the reason is recorded. → audit and model feedback
 4. **Every action has a key**, shown on focus. → reviewers live on the keyboard
