@@ -15,4 +15,7 @@
   --color-sev-obs-fg: var(--sev-obs-fg);
 
   --color-sidebar-active: var(--sidebar-active);
+
+  --color-ink-solid: var(--ink-solid);
+  --color-ink-solid-hover: var(--ink-solid-hover);
 }

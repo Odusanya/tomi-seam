@@ -33,6 +33,14 @@
   --sidebar-primary: var(--sf-accent-deep);
   --sidebar-primary-foreground: var(--ui-on-standout);
   --sidebar-active: var(--sf-accent-wash);
+
+  /* Focus ring: solid deep accent (11:1 on the sidebar surfaces). One treatment for the sidebar,
+     dropzone and sample tiles. The light accent (--sf-accent) is a fill/wash only, never a foreground. */
+  --sidebar-ring: var(--sf-accent-deep);
+
+  /* Seamflow ink: the fill of the one call to action ("Scan image"). --primary is untouched. */
+  --ink-solid: #171717;
+  --ink-solid-hover: #2e2e2e;
 }
 
 /* Use the fonts that next/font loads (layout.tsx), not system fallbacks. */
@@ -96,4 +104,11 @@
   /* Bridge: shadcn primitives say text-sm; the product body size is 13 px (= text-body-sm). */
   --text-sm: 13px;
   --text-sm--line-height: 20px;
+}
+
+/* Reduced motion: toasts appear and leave without sliding. */
+@media (prefers-reduced-motion: reduce) {
+  [data-sonner-toast] {
+    transition: none !important;
+  }
 }
