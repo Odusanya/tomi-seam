@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import "@fontsource-variable/inter"
 import { Geist_Mono } from "next/font/google"
+import localFont from "next/font/local"
 
 import "./globals.css"
 import { AppSidebar } from "@/components/app-sidebar"
@@ -12,6 +13,15 @@ import { cn } from "@/lib/utils"
 
 const fontMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })
 
+// Roobert variable (TRIAL licence, see DECISIONS.md). Axes: wght 300-900, slnt, MONO.
+const fontRoobert = localFont({
+  src: "./fonts/RoobertVF-TRIAL.woff2",
+  variable: "--font-roobert",
+  weight: "300 900",
+  style: "normal",
+  display: "swap",
+})
+
 // Rename on the day to the product in the brief.
 export const metadata: Metadata = {
   title: "Workspace",
@@ -21,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={cn("antialiased", fontMono.variable, "font-sans")}>
+    <html lang="en" suppressHydrationWarning className={cn("antialiased", fontMono.variable, fontRoobert.variable, "font-sans")}>
       <body>
         <ThemeProvider>
           <TooltipProvider>
