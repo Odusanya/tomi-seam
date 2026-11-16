@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "test": "node --import ./tests/resolve-hooks.mjs --test \"lib/**/*.test.ts\" \"features/**/*.test.ts\"",
     "lint": "oxlint && npm run lint:deprecated",
     "lint:deprecated": "oxlint --type-aware -A all -D typescript/no-deprecated --ignore-pattern \"components/ui/**\" app components lib hooks features",
     "lint:fix": "oxlint --fix",
