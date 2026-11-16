@@ -12,6 +12,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 A time-boxed prototype (about 3 hours). It is judged on design quality, density, and how the UI handles AI output. It is not judged on the backend.
 
+**One repo.** All work for this task happens here, in `/Users/zomi/zone/sites/projects/tomi-design-engineer`, on `main`. Don't clone it elsewhere or start a separate worktree; if parallel agents need isolation, the session lead merges their branch back here the same day.
+
 ## 1. Dummy data only. Do not build logic.
 
 - Data lives in `lib/fixtures/` as typed arrays. Pages import it directly.
