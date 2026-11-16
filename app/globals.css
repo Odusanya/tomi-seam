@@ -6,7 +6,7 @@
 @import "../styles/tokens/generated.css";
 @import "../styles/tokens/shadcn-bridge.css";
 @import "../styles/tokens/theme.css";
-@import "./app-tokens.css";
+@import "../styles/tokens/product.css";
 @import "./app-theme.css";
 
 @layer base {

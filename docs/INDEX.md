@@ -17,3 +17,5 @@ This repo carries only short rules. Long-form context lives here:
 | Deploy: Next on Cloudflare | https://opennext.js.org/cloudflare |
 
 Paths are relative to this repo at `~/zone/sites/projects/tomi-design-engineer`.
+
+- [Tokens: one place to change](tokens.md)

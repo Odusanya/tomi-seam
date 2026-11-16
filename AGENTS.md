@@ -40,6 +40,7 @@ L2 pieces (a data table, a property list) start inside their feature. Move one t
 ## 3. Styling
 
 - Use variants, sizes and tokens. Never restyle a component with `className`; lint enforces this. If a treatment is missing, make an L3 atom with a variant.
+- Product values (type, density, domain colours) live in `styles/tokens/product.css` only. See `docs/tokens.md`.
 - Colours come from tokens only: `text-fg-*`, `bg-sev-*`, `bg-ai-*`, `border-line-*`. No palette classes, no hex, no `dark:`.
 - Type: `text-body-sm` (13), `text-caption-lg` (12), `text-caption-base` (11). Not `text-sm`, `text-xs` or `text-xl`.
 - Density: rows 36 px, compact 32 px (`<Table data-density="compact">`), header 32 px. One line height per size (13/20). `data-interactive` on a `TableRow` gives it hover. Toolbar and row buttons are `size="sm"` (28 px), `size="xs"` (24 px) in compact rows.

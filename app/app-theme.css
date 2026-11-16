@@ -13,13 +13,4 @@
   --color-sev-obs: var(--sev-obs-solid);
   --color-sev-obs-subtle: var(--sev-obs-subtle);
   --color-sev-obs-fg: var(--sev-obs-fg);
-
-  /* Density: tables and lists read these, never raw px. */
-  --spacing-row-compact: 32px;
-  --spacing-row: 36px;
-  --spacing-table-header: 32px;
-
-  /* Bridge: shadcn primitives say text-sm; the product body size is 13 px (= text-body-sm). */
-  --text-sm: 13px;
-  --text-sm--line-height: 20px;
 }

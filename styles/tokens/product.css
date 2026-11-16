@@ -1,0 +1,75 @@
+/* Product tokens: the ONE place product values live (type, density, domain colours).
+   Source of truth today: this file. Everything else (theme.css, app-theme.css,
+   components) only references these names.
+   Swap to Paper later: export Paper tokens (get_tokens, tailwind format), keep the
+   same names, and replace the values below. Nothing else changes. See docs/tokens.md. */
+
+:root {
+  /* AI accent: machine output only. Never used for anything a person approved. */
+  --ai-solid: var(--violet-9);
+  --ai-subtle: var(--violet-3);
+  --ai-border: var(--violet-7);
+  --ai-fg: var(--violet-11);
+
+  /* Severity: domain meaning, shares status hues. */
+  --sev-major-solid: var(--tomato-9);
+  --sev-major-subtle: var(--tomato-a3);
+  --sev-major-fg: var(--tomato-11);
+  --sev-minor-solid: var(--orange-9);
+  --sev-minor-subtle: var(--orange-a4);
+  --sev-minor-fg: var(--orange-11);
+  --sev-obs-solid: var(--ui-fg-tertiary);
+  --sev-obs-subtle: var(--ui-component);
+  --sev-obs-fg: var(--ui-fg-secondary);
+}
+
+/* Use the Geist Mono that next/font loads (layout.tsx), not a system fallback. */
+:root {
+  --ui-font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@theme {
+  /* Type: 13-step scale in px literals so density never resizes text */
+  --font-weight-semimedium: 450;
+  --text-caption-xs: 8px;
+  --text-caption-xs--line-height: 12px;
+  --text-caption-sm: 10px;
+  --text-caption-sm--line-height: 16px;
+  --text-caption-base: 11px;
+  --text-caption-base--line-height: 16px;
+  --text-caption-lg: 12px;
+  --text-caption-lg--line-height: 16px;
+  --text-body-sm: 13px;
+  --text-body-sm--line-height: 20px;
+  --text-body-base: 15px;
+  --text-body-base--line-height: 24px;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 24px;
+  --text-heading-6: 20px;
+  --text-heading-6--line-height: 24px;
+  --text-heading-6--letter-spacing: -0.01em;
+  --text-heading-5: 24px;
+  --text-heading-5--line-height: 32px;
+  --text-heading-5--letter-spacing: -0.01em;
+  --text-heading-4: 28px;
+  --text-heading-4--line-height: 36px;
+  --text-heading-4--letter-spacing: -0.01em;
+  --text-heading-3: 36px;
+  --text-heading-3--line-height: 44px;
+  --text-heading-3--letter-spacing: -0.01em;
+  --text-heading-2: 44px;
+  --text-heading-2--line-height: 56px;
+  --text-heading-2--letter-spacing: -0.01em;
+  --text-heading-1: 56px;
+  --text-heading-1--line-height: 56px;
+  --text-heading-1--letter-spacing: -0.01em;
+
+  /* Density: tables and lists read these, never raw px. */
+  --spacing-row-compact: 32px;
+  --spacing-row: 36px;
+  --spacing-table-header: 32px;
+
+  /* Bridge: shadcn primitives say text-sm; the product body size is 13 px (= text-body-sm). */
+  --text-sm: 13px;
+  --text-sm--line-height: 20px;
+}

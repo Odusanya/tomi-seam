@@ -124,43 +124,11 @@
   --color-line-strong: var(--ui-border-strong);
   --color-line-focus: var(--ui-border-focus);
 
-  /* Type: the reference system's 13-step scale, in px literals so density never resizes text */
+  /* Type families. The scale itself lives in product.css. */
   --font-sans: var(--ui-font-sans);
   --font-mono: var(--ui-font-mono);
   --font-heading: var(--ui-font-sans);
-  --font-weight-semimedium: 450;
-  --text-caption-xs: 8px;
-  --text-caption-xs--line-height: 12px;
-  --text-caption-sm: 10px;
-  --text-caption-sm--line-height: 16px;
-  --text-caption-base: 11px;
-  --text-caption-base--line-height: 16px;
-  --text-caption-lg: 12px;
-  --text-caption-lg--line-height: 16px;
-  --text-body-sm: 13px;
-  --text-body-sm--line-height: 20px;
-  --text-body-base: 15px;
-  --text-body-base--line-height: 24px;
-  --text-body-lg: 18px;
-  --text-body-lg--line-height: 24px;
-  --text-heading-6: 20px;
-  --text-heading-6--line-height: 24px;
-  --text-heading-6--letter-spacing: -0.01em;
-  --text-heading-5: 24px;
-  --text-heading-5--line-height: 32px;
-  --text-heading-5--letter-spacing: -0.01em;
-  --text-heading-4: 28px;
-  --text-heading-4--line-height: 36px;
-  --text-heading-4--letter-spacing: -0.01em;
-  --text-heading-3: 36px;
-  --text-heading-3--line-height: 44px;
-  --text-heading-3--letter-spacing: -0.01em;
-  --text-heading-2: 44px;
-  --text-heading-2--line-height: 56px;
-  --text-heading-2--letter-spacing: -0.01em;
-  --text-heading-1: 56px;
-  --text-heading-1--line-height: 56px;
-  --text-heading-1--letter-spacing: -0.01em;
+  /* Values (weight, sizes, line heights): styles/tokens/product.css */
 
   /* Radius: reference ladder x config factor (xl/2xl/3xl differ from Tailwind defaults) */
   --radius-xs: var(--ui-radius-xs);
