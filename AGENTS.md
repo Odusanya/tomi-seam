@@ -54,6 +54,6 @@ Run `npm run lint` after every change and fix every error before reporting. The 
 
 Commands: `npm run dev` (port 3100) · `npm run check` · `npm run deploy` (Cloudflare, seamflow.tomiodusanya.com).
 
-Spinners: `loading-dev` (devDependency, React 19+ library, MIT, loading.dev). Use `import { Arc } from "loading-dev"` with `size`, `color`, `duration`; 36 indicators, respects reduced motion. No CLI.
+Spinners: `loading-dev` (React 19+, MIT). `import { Arc } from "loading-dev"`, props `size`, `duration`; 36 indicators, respects reduced motion. Leave `color` unset so it inherits `currentColor`, and colour the parent with a `text-*` token (lint can't see raw colours inside props).
 
 Don't add dependencies, commit or deploy without asking.
