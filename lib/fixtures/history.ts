@@ -1,10 +1,9 @@
-// Seeded History rows (about 12), deterministic from prng() and DEMO_NOW.
-// Built in M1; the History view that reads them is a later milestone.
+// Seeded History rows (40, about ten days of use), deterministic from prng() and DEMO_NOW.
 import { MODEL, type ClassificationResult } from "@/lib/fixtures/classification"
 import { DEMO_NOW, prng } from "@/lib/fixtures/prng"
 import { samples } from "@/lib/fixtures/samples"
 
-const ROWS = 12
+const ROWS = 40
 const HOUR_MS = 3_600_000
 
 function buildHistory(): ClassificationResult[] {
