@@ -43,6 +43,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "loading-dev": "^0.3.8",
     "oxlint": "^1.94.0",
     "oxlint-tailwindcss": "^1.17.2",
     "oxlint-tsgolint": "^7.0.2007",
