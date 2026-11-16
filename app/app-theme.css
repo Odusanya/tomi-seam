@@ -18,6 +18,9 @@
   --color-sidebar-active: var(--sidebar-active);
   --color-nav-soon: var(--nav-soon-fg);
 
+  --color-chart-hot-dog: var(--chart-hot-dog);
+  --color-chart-not-hot-dog: var(--chart-not-hot-dog);
+
   --color-ink-solid: var(--ink-solid);
   --color-ink-solid-hover: var(--ink-solid-hover);
 }

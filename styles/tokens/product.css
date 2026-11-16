@@ -53,6 +53,12 @@
      white group card). Never lighter. */
   --nav-soon-fg: color-mix(in srgb, var(--slate-11) 70%, var(--slate-9));
 
+  /* Overview chart series. Mustard for Hot Dog, brand blue for Not Hot Dog: validated as a pair
+     (CVD ΔE 31). Mustard is under 3:1 on white, so the chart always carries a legend, a total
+     above each bar and a screen-reader table. Chart and legend only; verdict glyphs stay neutral. */
+  --chart-hot-dog: #e5a000;
+  --chart-not-hot-dog: var(--brand-9);
+
   /* Seamflow ink: the fill of the one call to action ("Scan image"). --primary is untouched. */
   --ink-solid: #171717;
   --ink-solid-hover: #2e2e2e;
