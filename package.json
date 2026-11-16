@@ -9,7 +9,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint && npm run lint:deprecated",
-    "lint:deprecated": "oxlint --type-aware -A all -D typescript/no-deprecated --ignore-pattern \"components/ui/**\" app components lib hooks",
+    "lint:deprecated": "oxlint --type-aware -A all -D typescript/no-deprecated --ignore-pattern \"components/ui/**\" app components lib hooks features",
     "lint:fix": "oxlint --fix",
     "format": "prettier --write \"**/*.{ts,tsx,css,md}\"",
     "check": "npm run typecheck && npm run lint && npm run build",

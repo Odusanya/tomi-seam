@@ -39,7 +39,10 @@
       }
     },
     "shadcn": {
-      "note": "Design rules: DESIGN.md and docs/yardsticks/. Fix with a variant, size or token before adding classes."
+      "note": "Design rules: DESIGN.md and docs/yardsticks/. Fix with a variant, size or token before adding classes.",
+      "componentImports": [
+        "^@/components/domain(/|$)"
+      ]
     }
   },
   "categories": {
