@@ -5,10 +5,6 @@ import {
   type ClassificationResult,
   type Verdict,
 } from "@/lib/fixtures/classification"
-import { formatConfidence } from "@/features/history/format"
-
-/** The toolbar label for the low-confidence filter, e.g. "Below 75%". */
-export const LOW_LABEL = `Below ${formatConfidence(LOW_CONFIDENCE)}`
 
 export type VerdictFilter = "all" | Verdict
 
@@ -48,12 +44,6 @@ export function filterHistory<Row extends ClassificationResult>(
   rows: readonly Row[],
   filter: VerdictFilter,
   query: string,
-  { lowOnly = false }: { lowOnly?: boolean } = {},
 ): Row[] {
-  return rows.filter(
-    (row) =>
-      matchesVerdict(row, filter) &&
-      matchesQuery(row, query) &&
-      (!lowOnly || isLowConfidence(row)),
-  )
+  return rows.filter((row) => matchesVerdict(row, filter) && matchesQuery(row, query))
 }

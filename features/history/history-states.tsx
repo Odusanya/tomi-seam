@@ -44,24 +44,22 @@ export function HistoryEmpty() {
 type NoResultsProps = {
   query: string
   verdict: VerdictFilter
-  /** The low-confidence filter is on. */
-  lowOnly?: boolean
   onClearQuery: () => void
-  /** Resets the verdict filter and the low-confidence filter. */
+  /** Resets the verdict filter. */
   onClearVerdict: () => void
 }
 
 // What the filters (not the search) are asking for, in words.
-function filterPhrase(verdict: VerdictFilter, lowOnly: boolean): string {
-  const which = verdict === "all" ? "classification" : `${VERDICT_LABEL[verdict]} verdict`
-  return lowOnly ? `No ${which} is below the confidence cut-off.` : `No ${which} matches.`
+function filterPhrase(verdict: VerdictFilter): string {
+  const which =
+    verdict === "all" ? "classification" : `${VERDICT_LABEL[verdict]} verdict`
+  return `No ${which} matches.`
 }
 
 /** There is data, but the search or the verdict filter hides all of it. */
 export function HistoryNoResults({
   query,
   verdict,
-  lowOnly = false,
   onClearQuery,
   onClearVerdict,
 }: NoResultsProps) {
@@ -81,7 +79,7 @@ export function HistoryNoResults({
               {verdict === "all" ? "." : ` in ${VERDICT_LABEL[verdict]}.`}
             </>
           ) : (
-            filterPhrase(verdict, lowOnly)
+            filterPhrase(verdict)
           )}
         </EmptyDescription>
       </EmptyHeader>

@@ -45,7 +45,6 @@ type ListProps = { rows: readonly ClassificationResult[] }
 function HistoryList({ rows }: ListProps) {
   const [query, setQuery] = useState("")
   const [verdict, setVerdict] = useState<VerdictFilter>("all")
-  const [lowOnly, setLowOnly] = useState(false)
   const [edits, dispatch] = useReducer(rowEditsReducer, {})
   const [appealing, setAppealing] = useState<HistoryRow | null>(null)
   const [appealOpen, setAppealOpen] = useState(false)
@@ -55,7 +54,7 @@ function HistoryList({ rows }: ListProps) {
   const [detailOpen, setDetailOpen] = useState(false)
   // Filters read the edited rows, so an appealed verdict files under its new verdict.
   const edited = applyEdits(rows, edits)
-  const visible = filterHistory(edited, verdict, query, { lowOnly })
+  const visible = filterHistory(edited, verdict, query)
   const detailRow = edited.find((row) => row.id === detailId) ?? null
 
   function retry(row: HistoryRow) {
@@ -90,8 +89,6 @@ function HistoryList({ rows }: ListProps) {
           onQueryChange={setQuery}
           verdict={verdict}
           onVerdictChange={setVerdict}
-          lowOnly={lowOnly}
-          onLowOnlyChange={setLowOnly}
         />
         <HistoryTable
           rows={visible}
@@ -126,12 +123,8 @@ function HistoryList({ rows }: ListProps) {
           <HistoryNoResults
             query={query}
             verdict={verdict}
-            lowOnly={lowOnly}
             onClearQuery={() => setQuery("")}
-            onClearVerdict={() => {
-              setVerdict("all")
-              setLowOnly(false)
-            }}
+            onClearVerdict={() => setVerdict("all")}
           />
         ) : null}
       </PageBody>
