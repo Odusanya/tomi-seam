@@ -23,9 +23,8 @@ const fontPaperMono = localFont({
   display: "swap",
 })
 
-// Rename on the day to the product in the brief.
 export const metadata: Metadata = {
-  title: "SeeFood",
+  title: "Image classifier",
   description: "Classifies an image as Hot Dog or Not Hot Dog. Inference is simulated.",
   robots: { index: false, follow: false },
 }
