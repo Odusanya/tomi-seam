@@ -29,6 +29,15 @@
   --ui-font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* ?mono=paper (script in layout.tsx sets data-mono). The global "ss03" is Inter's;
+   in Paper Mono it swaps the space for a narrow one and breaks the mono grid, so reset it. */
+:root[data-mono="paper"] {
+  --ui-font-mono: var(--font-paper-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+:root[data-mono="paper"] .font-mono {
+  font-feature-settings: normal;
+}
+
 @theme {
   /* Type: 13-step scale in px literals so density never resizes text */
   --font-weight-semimedium: 450;

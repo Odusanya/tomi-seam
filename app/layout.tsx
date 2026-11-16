@@ -22,6 +22,18 @@ const fontRoobert = localFont({
   display: "swap",
 })
 
+// Opt-in mono: ?mono=paper. Geist stays the default.
+const fontPaperMono = localFont({
+  src: "./fonts/PaperMono-VF.woff2",
+  variable: "--font-paper-mono",
+  weight: "100 800",
+  style: "normal",
+  display: "swap",
+})
+
+// Static page, so the query is read on the client before paint; no searchParams here.
+const monoScript = `if(new URLSearchParams(location.search).get("mono")==="paper")document.documentElement.dataset.mono="paper"`
+
 // Rename on the day to the product in the brief.
 export const metadata: Metadata = {
   title: "Workspace",
@@ -31,7 +43,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={cn("antialiased", fontMono.variable, fontRoobert.variable, "font-sans")}>
+    <html lang="en" suppressHydrationWarning className={cn("antialiased", fontMono.variable, fontRoobert.variable, fontPaperMono.variable, "font-sans")}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: monoScript }} />
+      </head>
       <body>
         <ThemeProvider>
           <TooltipProvider>
