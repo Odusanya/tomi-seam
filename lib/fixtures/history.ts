@@ -29,3 +29,18 @@ function buildHistory(): ClassificationResult[] {
 
 /** Newest first. */
 export const seededHistory: readonly ClassificationResult[] = buildHistory()
+
+/**
+ * Faked outcome of re-running the model on one row (no real inference). Same verdict, a
+ * nearby confidence, deterministic per row and attempt. The first re-run of about one row
+ * in four fails, so the failed state can be seen; the next attempt succeeds.
+ */
+export function rerunOutcome(row: ClassificationResult, attempt: number): { fail: boolean; confidence: number } {
+  let hash = 0
+  for (const char of row.id) {
+    hash = (Math.imul(hash, 31) + char.charCodeAt(0)) >>> 0
+  }
+  // Spread the seed: adjacent seeds give near-identical first draws.
+  const rand = prng(hash ^ Math.imul(attempt, 0x9e3779b9))
+  return { fail: attempt === 1 && hash % 4 === 0, confidence: rand.int(70, 99) / 100 }
+}

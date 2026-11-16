@@ -46,7 +46,7 @@ L2 pieces (a data table, a property list) start inside their feature. Move one t
 - Product values (type, density, domain colours) live in `styles/tokens/product.css` only. See `docs/tokens.md`.
 - Colours come from tokens only: `text-fg-*`, `bg-sev-*`, `bg-ai-*`, `border-line-*`. No palette classes, no hex, no `dark:`.
 - Type: `text-body-sm` (13), `text-caption-lg` (12), `text-caption-base` (11). Not `text-sm`, `text-xs` or `text-xl`.
-- Density: rows 36 px, compact 32 px (`<Table data-density="compact">`), header 32 px. One line height per size (13/20). `data-interactive` on a `TableRow` gives it hover. Toolbar and row buttons are `size="sm"` (28 px), `size="xs"` (24 px) in compact rows.
+- Density: rows 36 px, compact 32 px (`<Table data-density="compact">`), comfortable 44 px (`<Table data-density="comfortable">`), header 32 px. One line height per size (13/20). `data-interactive` on a `TableRow` gives it hover. Toolbar and row buttons are `size="sm"` (28 px), `size="xs"` (24 px) in compact rows.
 - Light theme only.
 - Rules and their reasons: `DESIGN.md`. Short checklists: `docs/yardsticks/`. More context: `docs/INDEX.md`.
 - Library reference notes: `notes/`.

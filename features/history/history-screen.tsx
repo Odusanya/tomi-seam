@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useReducer, useState } from "react"
 
 import {
   Breadcrumb,
@@ -9,12 +9,21 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { AppealDialog } from "@/features/history/appeal-dialog"
 import { filterHistory, type VerdictFilter } from "@/features/history/filter"
 import { HistoryEmpty, HistoryError, HistoryNoResults } from "@/features/history/history-states"
 import { HistoryTable, HistoryTableSkeleton } from "@/features/history/history-table"
 import { HistoryToolbar } from "@/features/history/history-toolbar"
+import {
+  applyEdits,
+  nextAttempt,
+  otherVerdict,
+  rowEditsReducer,
+  type HistoryRow,
+} from "@/features/history/row-edits"
 import type { ClassificationResult } from "@/lib/fixtures/classification"
-import { seededHistory } from "@/lib/fixtures/history"
+import { fakeAI } from "@/lib/fixtures/fake-ai"
+import { rerunOutcome, seededHistory } from "@/lib/fixtures/history"
 import { workspace } from "@/lib/fixtures/nav"
 
 /** What the list is doing. One value, so "loading with rows" cannot be written. */
@@ -27,12 +36,26 @@ const READY: HistoryLoad = { status: "ready", rows: seededHistory }
 
 type ListProps = { rows: readonly ClassificationResult[] }
 
-// Toolbar, table and the filtered no-results state. Filter state lives here, so it resets
-// with the list and the screen above only decides which state to show.
+// Toolbar, table and the filtered no-results state. Filter state and row edits (re-runs,
+// appeals) live here, so they reset with the list and the screen above only decides which
+// state to show.
 function HistoryList({ rows }: ListProps) {
   const [query, setQuery] = useState("")
   const [verdict, setVerdict] = useState<VerdictFilter>("all")
-  const visible = filterHistory(rows, verdict, query)
+  const [edits, dispatch] = useReducer(rowEditsReducer, {})
+  const [appealing, setAppealing] = useState<HistoryRow | null>(null)
+  const [appealOpen, setAppealOpen] = useState(false)
+  // Filters read the edited rows, so an appealed verdict files under its new verdict.
+  const visible = filterHistory(applyEdits(rows, edits), verdict, query)
+
+  function retry(row: HistoryRow) {
+    const attempt = nextAttempt(edits[row.id])
+    const outcome = rerunOutcome(row, attempt)
+    dispatch({ type: "start", id: row.id, attempt })
+    fakeAI(outcome.confidence, { ms: 1400, fail: outcome.fail })
+      .then((confidence) => dispatch({ type: "finish", id: row.id, attempt, confidence }))
+      .catch(() => dispatch({ type: "fail", id: row.id, attempt }))
+  }
 
   return (
     <>
@@ -43,7 +66,24 @@ function HistoryList({ rows }: ListProps) {
         onVerdictChange={setVerdict}
         count={visible.length}
       />
-      <HistoryTable rows={visible} />
+      <HistoryTable
+        rows={visible}
+        onRetry={retry}
+        onAppeal={(row) => {
+          setAppealing(row)
+          setAppealOpen(true)
+        }}
+        onWithdraw={(row) => dispatch({ type: "withdraw", id: row.id })}
+      />
+      <AppealDialog
+        row={appealing}
+        open={appealOpen}
+        onOpenChange={setAppealOpen}
+        onAppeal={(row, reason) => {
+          dispatch({ type: "appeal", id: row.id, verdict: otherVerdict(row.verdict), reason })
+          setAppealOpen(false)
+        }}
+      />
       {visible.length === 0 ? (
         <HistoryNoResults
           query={query}

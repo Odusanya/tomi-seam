@@ -28,10 +28,10 @@ export function matchesVerdict(row: ClassificationResult, filter: VerdictFilter)
   return filter === "all" || row.verdict === filter
 }
 
-export function filterHistory(
-  rows: readonly ClassificationResult[],
+export function filterHistory<Row extends ClassificationResult>(
+  rows: readonly Row[],
   filter: VerdictFilter,
   query: string,
-): ClassificationResult[] {
+): Row[] {
   return rows.filter((row) => matchesVerdict(row, filter) && matchesQuery(row, query))
 }

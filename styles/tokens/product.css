@@ -113,6 +113,8 @@
   /* Density: tables and lists read these, never raw px. */
   --spacing-row-compact: 32px;
   --spacing-row: 36px;
+  /* Comfortable: short tables with room to spare (History). Fits a 36 px thumbnail. */
+  --spacing-row-comfortable: 44px;
   --spacing-table-header: 32px;
   --spacing-sidebar: 240px;
   --spacing-sidebar-rail: 48px;

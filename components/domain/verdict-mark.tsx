@@ -29,7 +29,9 @@ const glyphVariants = cva("shrink-0", {
   defaultVariants: { size: "lg", tone: "brand" },
 })
 
-const glyphs = { "hot-dog": CircleCheckIcon, "not-hot-dog": CircleXIcon } as const
+/** One glyph per verdict, shared with VerdictPill so a verdict looks the same everywhere. */
+export const VERDICT_GLYPH = { "hot-dog": CircleCheckIcon, "not-hot-dog": CircleXIcon } as const
+const glyphs = VERDICT_GLYPH
 
 type Props = Omit<ComponentProps<"div">, "children"> &
   VariantProps<typeof verdictMarkVariants> &

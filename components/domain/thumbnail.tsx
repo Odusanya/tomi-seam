@@ -5,10 +5,12 @@ import type { ComponentProps } from "react"
 
 import { cn } from "@/lib/utils"
 
-const thumbnailVariants = cva("block shrink-0 rounded-sm border border-default object-cover", {
+// max-w-none: preflight caps images at 100% of the cell, which lets an auto-layout table
+// squeeze the tile to a sliver on narrow screens.
+const thumbnailVariants = cva("block max-w-none shrink-0 rounded-sm border border-default object-cover", {
   variants: {
-    // sm sits inside a 36 px row; xs inside a compact 32 px row.
-    size: { sm: "size-7", xs: "size-6" },
+    // md sits inside a comfortable 44 px row, sm inside a 36 px row, xs inside a compact 32 px row.
+    size: { md: "size-9", sm: "size-7", xs: "size-6" },
   },
   defaultVariants: { size: "sm" },
 })
