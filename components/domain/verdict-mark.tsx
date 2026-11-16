@@ -29,7 +29,7 @@ const glyphVariants = cva("shrink-0", {
   defaultVariants: { size: "lg", tone: "brand" },
 })
 
-/** One glyph per verdict, shared with VerdictPill so a verdict looks the same everywhere. */
+/** One glyph per verdict, shared with VerdictAnswer so a verdict keeps one shape everywhere. */
 export const VERDICT_GLYPH = { "hot-dog": CircleCheckIcon, "not-hot-dog": CircleXIcon } as const
 const glyphs = VERDICT_GLYPH
 
