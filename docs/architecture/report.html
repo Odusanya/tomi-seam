@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Architecture review — tomi-design-engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
+      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" })
+    </script>
+    <style>
+      .seam { border-top: 2px dashed #64748b; }
+      .leak { color: #dc2626; border-color: #dc2626; }
+      .deep { background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; }
+      .lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans">
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+      <header class="space-y-3">
+        <h1 class="font-serif text-3xl">Architecture review — tomi-design-engineer</h1>
+        <p class="text-sm text-slate-600">16 Nov 2026 · lean starter for a 3-hour design-engineering task · execution plan: <code>docs/architecture/plan.md</code></p>
+        <div class="flex flex-wrap gap-4 text-xs text-slate-600">
+          <span class="flex items-center gap-2"><span class="inline-block w-5 h-4 border border-slate-400 bg-white"></span>module</span>
+          <span class="flex items-center gap-2"><span class="inline-block w-6 seam"></span>seam</span>
+          <span class="flex items-center gap-2"><span class="leak font-semibold">→</span>leak</span>
+          <span class="flex items-center gap-2"><span class="inline-block w-5 h-4 deep rounded-sm"></span>deep module</span>
+        </div>
+      </header>
+
+      <section id="candidates" class="space-y-10">
+        <!-- 1 -->
+        <article id="c1" class="bg-white border border-slate-200 rounded-lg p-6 space-y-4">
+          <h2 class="font-serif text-xl">1. Close the seam between DESIGN.md and the L1 primitives</h2>
+          <div class="flex gap-2 text-xs">
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Strong</span>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700">in-process</span>
+          </div>
+          <p class="font-mono text-sm text-slate-700">app/app-theme.css · components/ui/table.tsx · DESIGN.md · docs/yardsticks/type-density.md · polish.md</p>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="border border-slate-200 rounded p-4 space-y-2">
+              <p class="lbl text-slate-500">Before</p>
+              <div class="border border-slate-400 p-2 text-sm">DESIGN.md: body 13 px · rows 41 / 32 · controls 28</div>
+              <div class="seam"></div>
+              <div class="border leak p-2 text-sm">Table: <code>text-sm</code> 14 px, <code>p-2</code> rows, row hover on</div>
+              <div class="border leak p-2 text-sm"><code>--spacing-row</code> tokens: read by nothing</div>
+              <div class="border leak p-2 text-sm">Call site: <code>no-restyle</code> blocks the fix</div>
+            </div>
+            <div class="border border-slate-200 rounded p-4 space-y-2">
+              <p class="lbl text-slate-500">After</p>
+              <div class="border border-slate-400 p-2 text-sm">DESIGN.md names the variant, not the pixel</div>
+              <div class="seam"></div>
+              <div class="deep rounded p-3 text-sm space-y-1">
+                <p class="lbl">theme bridge + Table</p>
+                <p class="opacity-70"><code>--text-sm: 13px</code> · td reads <code>h-row</code> · <code>data-density="compact"</code> · hover only on <code>data-interactive</code></p>
+              </div>
+            </div>
+          </div>
+          <p class="text-sm"><b>Problem.</b> The rules, the tokens and the primitives disagree, and lint forbids fixing it where the caller stands.</p>
+          <p class="text-sm"><b>Solution.</b> Bridge type in the theme, make Table read the row tokens, and make the docs name sizes that exist.</p>
+          <ul class="text-sm list-disc pl-5"><li>locality: density lives in one module</li><li>leverage: every table is on-scale</li><li>46 <code>text-sm</code> uses fixed by one line</li></ul>
+        </article>
+
+        <!-- 2 -->
+        <article id="c2" class="bg-white border border-slate-200 rounded-lg p-6 space-y-4">
+          <h2 class="font-serif text-xl">2. Make lint the whole interface of the agent rules</h2>
+          <div class="flex gap-2 text-xs">
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Strong</span>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700">in-process</span>
+          </div>
+          <p class="font-mono text-sm text-slate-700">.oxlintrc.json · package.json · AGENTS.md</p>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="border border-slate-200 rounded p-4">
+              <p class="lbl text-slate-500 mb-2">Before — rule in prose only</p>
+              <table class="text-sm w-full">
+                <tr><td>No <code>text-sm</code></td><td class="leak text-right"><code>text-xs</code>, <code>text-xl</code> pass</td></tr>
+                <tr><td>No <code>Math.random</code> / <code>Date.now</code></td><td class="leak text-right">passes</td></tr>
+                <tr><td>Imports flow down</td><td class="leak text-right">passes</td></tr>
+                <tr><td>Never restyle</td><td class="leak text-right">domain atoms pass</td></tr>
+                <tr><td>Deprecated-API check</td><td class="leak text-right">skips <code>features/</code></td></tr>
+              </table>
+            </div>
+            <div class="border border-slate-200 rounded p-4">
+              <p class="lbl text-slate-500 mb-2">After — each rule fails with its fix</p>
+              <div class="deep rounded p-3 text-sm space-y-1">
+                <p>wider type-scale pattern</p>
+                <p><code>no-restricted-properties</code></p>
+                <p>layer overrides on <code>no-restricted-imports</code></p>
+                <p><code>componentImports</code>: <code>components/domain</code></p>
+                <p><code>lint:deprecated</code> includes <code>features</code></p>
+              </div>
+            </div>
+          </div>
+          <p class="text-sm"><b>Problem.</b> Five AGENTS.md rules depend on an agent remembering them.</p>
+          <p class="text-sm"><b>Solution.</b> Add the five checks. All were tried against a scratch copy of the config.</p>
+          <ul class="text-sm list-disc pl-5"><li>leverage: one config, every agent</li><li>interface shrinks to "run lint"</li></ul>
+        </article>
+
+        <!-- 3 -->
+        <article id="c3" class="bg-white border border-slate-200 rounded-lg p-6 space-y-4">
+          <h2 class="font-serif text-xl">3. Put the review invariants into the AIOutput interface</h2>
+          <div class="flex gap-2 text-xs">
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Strong</span>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700">in-process</span>
+          </div>
+          <p class="font-mono text-sm text-slate-700">lib/fixtures/types.ts · DESIGN.md · docs/yardsticks/hitl.md</p>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="border border-slate-200 rounded p-4 text-sm font-mono space-y-1">
+              <p class="lbl text-slate-500 font-sans">Before</p>
+              <p>status: draft | accepted | rejected | edited</p>
+              <p class="leak">reviewedBy?: string</p>
+              <p class="leak">reason?: string // required when rejected</p>
+              <p class="font-sans text-slate-500">Docs say "approved"; the type says "accepted".</p>
+            </div>
+            <div class="border border-slate-200 rounded p-4 text-sm font-mono space-y-1">
+              <p class="lbl text-slate-500 font-sans">After</p>
+              <div class="deep rounded p-3 space-y-1">
+                <p>{ status: "draft" }</p>
+                <p>{ status: "accepted"; by }</p>
+                <p>{ status: "edited" | "rejected"; by; reason }</p>
+              </div>
+              <p class="font-sans text-slate-500">One word everywhere: accept.</p>
+            </div>
+          </div>
+          <p class="text-sm"><b>Problem.</b> "Override needs a reason" is a comment, so a fixture or a handler can break it silently.</p>
+          <p class="text-sm"><b>Solution.</b> A discriminated union on <code>status</code>.</p>
+          <ul class="text-sm list-disc pl-5"><li>the compiler holds DESIGN rule 3</li><li>locality: one vocabulary for review</li></ul>
+        </article>
+
+        <!-- 4 -->
+        <article id="c4" class="bg-white border border-slate-200 rounded-lg p-6 space-y-4">
+          <h2 class="font-serif text-xl">4. Deepen fakeAI into one AI-run module</h2>
+          <div class="flex gap-2 text-xs">
+            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800">Worth exploring</span>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700">in-process</span>
+          </div>
+          <p class="font-mono text-sm text-slate-700">lib/fixtures/fake-ai.ts · hooks/use-fake-ai.ts (new) · lib/fixtures/types.ts</p>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="rounded-lg border border-slate-200 bg-white p-4">
+              <p class="lbl text-slate-500">Before</p>
+              <pre class="mermaid">
+flowchart TB
+  A[Feature A] --> F[fakeAI: a timeout]
+  B[Feature B] --> F
+  A -.-> SA[own status union, narration timer, retry]
+  B -.-> SB[own status union, narration timer, retry]
+  classDef leak stroke:#dc2626,stroke-width:2px;
+  class SA,SB leak
+              </pre>
+            </div>
+            <div class="rounded-lg border border-slate-200 bg-white p-4">
+              <p class="lbl text-slate-500">After</p>
+              <pre class="mermaid">
+flowchart TB
+  A[Feature A] --> H[useFakeAI: state, run]
+  B[Feature B] --> H
+  H --> F[fakeAI with steps]
+  classDef deep fill:#0f172a,color:#fff;
+  class H deep
+              </pre>
+            </div>
+          </div>
+          <p class="text-sm"><b>Problem.</b> Deletion test: remove <code>fakeAI</code> and nothing is lost. The hard part (running, narration, error, retry) reappears in every caller, where effects are banned.</p>
+          <p class="text-sm"><b>Solution.</b> <code>fakeAI</code> takes narration steps; one hook returns <code>AIRun&lt;T&gt;</code> and <code>run</code>.</p>
+          <ul class="text-sm list-disc pl-5"><li>leverage: four states per call</li><li>every AI block narrates the same way</li><li>one new file, about 30 lines</li></ul>
+        </article>
+
+        <!-- 5 -->
+        <article id="c5" class="bg-white border border-slate-200 rounded-lg p-6 space-y-4">
+          <h2 class="font-serif text-xl">5. Let useHotkey cover the keys keyboard.md promises</h2>
+          <div class="flex gap-2 text-xs">
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Strong</span>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700">in-process</span>
+          </div>
+          <p class="font-mono text-sm text-slate-700">hooks/use-hotkey.ts · docs/yardsticks/keyboard.md</p>
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div class="border border-slate-200 rounded p-4 space-y-2">
+              <p class="lbl text-slate-500">Before</p>
+              <div class="border border-slate-400 p-2">keyboard.md: <code>⌘K</code> command palette</div>
+              <div class="seam"></div>
+              <div class="border leak p-2"><code>useHotkey</code> returns early on <code>metaKey</code></div>
+              <div class="border leak p-2">Caller needs an effect; lint bans it in features</div>
+            </div>
+            <div class="border border-slate-200 rounded p-4 space-y-2">
+              <p class="lbl text-slate-500">After</p>
+              <div class="deep rounded p-3"><code>useHotkey("mod+k", open)</code> · same interface, one more key form</div>
+            </div>
+          </div>
+          <p class="text-sm"><b>Problem.</b> The interface excludes a shortcut the yardstick lists.</p>
+          <p class="text-sm"><b>Solution.</b> Accept a <code>mod+</code> prefix. No registry, no scopes.</p>
+          <ul class="text-sm list-disc pl-5"><li>all listed keys cross one seam</li></ul>
+        </article>
+
+        <!-- 6 -->
+        <article id="c6" class="bg-white border border-slate-200 rounded-lg p-6 space-y-4">
+          <h2 class="font-serif text-xl">6. Give "purple means the AI said it" a module</h2>
+          <div class="flex gap-2 text-xs">
+            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800">Worth exploring</span>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700">in-process</span>
+          </div>
+          <p class="font-mono text-sm text-slate-700">components/domain/ai-mark.tsx (new) · app/page.tsx</p>
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div class="border border-slate-200 rounded p-4 space-y-2">
+              <p class="lbl text-slate-500">Before</p>
+              <div class="border border-slate-400 p-2">DESIGN rule 1 + <code>ai-*</code> tokens</div>
+              <div class="border leak p-2">No module applies them. Each agent re-derives violet → neutral.</div>
+              <div class="border border-slate-400 p-2">The only atom is SeverityBadge, which is brief-specific</div>
+            </div>
+            <div class="border border-slate-200 rounded p-4 space-y-2">
+              <p class="lbl text-slate-500">After</p>
+              <div class="deep rounded p-3"><code>&lt;AIMark status by /&gt;</code> · draft is violet, anything a person touched is neutral</div>
+            </div>
+          </div>
+          <p class="text-sm"><b>Problem.</b> The core rule of the product has tokens but no interface.</p>
+          <p class="text-sm"><b>Solution.</b> One atom, four statuses. It applies to all three likely briefs.</p>
+          <ul class="text-sm list-disc pl-5"><li>locality: rule 1 lives in one file</li><li>agents stop choosing AI colours</li></ul>
+        </article>
+
+        <!-- 7 -->
+        <article id="c7" class="bg-white border border-slate-200 rounded-lg p-6 space-y-4">
+          <h2 class="font-serif text-xl">7. Remove dead weight and stale words</h2>
+          <div class="flex gap-2 text-xs">
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Strong</span>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700">in-process</span>
+          </div>
+          <table class="text-sm w-full">
+            <tr class="border-b"><td class="py-1 font-mono">zod</td><td>Unused, and AGENTS.md bans validation layers</td></tr>
+            <tr class="border-b"><td class="py-1 font-mono">--brand / --color-brand</td><td>Second name for <code>brand-solid</code></td></tr>
+            <tr class="border-b"><td class="py-1 font-mono">--spacing-control-compact</td><td>Read by nothing; primitives cannot take it</td></tr>
+            <tr class="border-b"><td class="py-1 font-mono">app-tokens.css comment</td><td>Points at <code>docs/yardsticks/tokens.md</code>, which does not exist</td></tr>
+            <tr class="border-b"><td class="py-1 font-mono">README.md</td><td>"first commit" is now 13 commits</td></tr>
+            <tr><td class="py-1 font-mono">prettier</td><td>35 files fail <code>--check</code>; <code>npm run format</code> on the day would rewrite them all</td></tr>
+          </table>
+        </article>
+
+        <!-- rejected -->
+        <article class="bg-white border border-slate-200 rounded-lg p-6 space-y-3">
+          <h2 class="font-serif text-xl">Considered and rejected</h2>
+          <div class="flex gap-2 text-xs"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700">Speculative</span></div>
+          <ul class="text-sm list-disc pl-5 space-y-1">
+            <li>DataTable, PageHeader, command registry, shortcut sheet: one adapter each until a brief exists. Built live.</li>
+            <li>Delete <code>ThemeProvider</code>: fails the deletion test. Without it the toaster follows the OS theme.</li>
+            <li>Delete dark tokens: no time saved on the day, and risk in generated files.</li>
+            <li>Delete <code>lib/utils.ts</code>: a pass-through, but agents import it by habit. One line.</li>
+            <li>Restyle focus rings, disabled states and radius in 34 vendored files: large diff for a pre-task commit. The docs change instead.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="top-recommendation" class="deep rounded-lg p-8 space-y-2">
+        <p class="lbl opacity-70">Top recommendation</p>
+        <h2 class="font-serif text-2xl"><a href="#c1" class="underline">1. Close the seam between DESIGN.md and the L1 primitives</a></h2>
+        <p class="text-sm opacity-80">Density is what the task is judged on, and today the placeholder table renders 14 px text in rows that ignore the row tokens. It is the only finding a reviewer can see.</p>
+      </section>
+    </main>
+  </body>
+</html>

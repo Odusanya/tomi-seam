@@ -489,6 +489,9 @@ const sidebarMenuButtonVariants = cva(
     variants: {
       variant: {
         default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        // Unavailable row: aria-disabled but full opacity (the base opacity-50 would fail AA),
+        // no hover or press fill, and pointer events kept so its tooltip still opens.
+        soon: "cursor-default text-nav-soon hover:bg-transparent hover:text-nav-soon active:bg-transparent active:text-nav-soon aria-disabled:pointer-events-auto aria-disabled:opacity-100",
         outline:
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
       },

@@ -1,6 +1,7 @@
 @theme inline {
   --color-ai: var(--ai-solid);
   --color-ai-subtle: var(--ai-subtle);
+  --color-scan-stage: var(--scan-stage);
   --color-ai-border: var(--ai-border);
   --color-ai-fg: var(--ai-fg);
 
@@ -15,6 +16,7 @@
   --color-sev-obs-fg: var(--sev-obs-fg);
 
   --color-sidebar-active: var(--sidebar-active);
+  --color-nav-soon: var(--nav-soon-fg);
 
   --color-ink-solid: var(--ink-solid);
   --color-ink-solid-hover: var(--ink-solid-hover);

@@ -15,7 +15,7 @@ export function SampleTile({ src, alt, label, className, ...props }: Props) {
       )}
       {...props}
     >
-      {/* Local placeholder SVG; next/image adds nothing for a static 300 px tile. */}
+      {/* Local 1200 px photo; next/image adds nothing for a static 300 px tile. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt={alt} className="aspect-3/2 w-full rounded-md border border-subtle object-cover" />
       <span>{label}</span>

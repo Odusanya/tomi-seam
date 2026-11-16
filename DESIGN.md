@@ -21,7 +21,7 @@ Details live in `docs/yardsticks/`. Each rule has a reason so it can be defended
 ## Dashboards
 - **Colour only on the exception.** Everything else is neutral.
 - **Status is a glyph plus a neutral label**, not a tinted pill.
-- **Icons 16 px, 1.5 stroke**, muted icon colour.
+- **Icons 16 px, 1.5 stroke**, muted icon colour. The sidebar is the exception: Heroicons 16 px solid (`@heroicons/react/16/solid`), no stroke.
 - **One row height**, everywhere in a table.
 - **A selected row gets a fill**, not a ring.
 - **Order: filters, then chart, then table.**

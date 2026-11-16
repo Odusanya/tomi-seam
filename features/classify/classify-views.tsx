@@ -1,14 +1,18 @@
 // Presentational pieces of the Classify screen. State lives in classify-screen.tsx.
-import { CircleAlertIcon, LoaderIcon, UploadIcon } from "lucide-react"
+import { CircleAlertIcon, LoaderIcon } from "lucide-react"
+import { AnimatePresence } from "motion/react"
 import type { ComponentProps, RefObject } from "react"
 
 import { Dropzone } from "@/components/domain/dropzone"
+import { IsoTray } from "@/components/domain/iso-tray"
 import { SampleTile } from "@/components/domain/sample-tile"
+import { ScanStage } from "@/components/domain/scan-stage"
 import { VerdictMark } from "@/components/domain/verdict-mark"
 import { Button } from "@/components/ui/button"
+import type { ScreenState } from "@/features/classify/classify-screen"
 import type { Verdict } from "@/lib/fixtures/classification"
 import { ACCEPTED_TYPES } from "@/lib/fixtures/classification"
-import { samples, type SampleImage } from "@/lib/fixtures/samples"
+import { creditFor, samples, type SampleImage } from "@/lib/fixtures/samples"
 
 const ICON_STROKE = 1.5
 
@@ -41,7 +45,7 @@ export function PickView({
     <>
       <div className="flex flex-col gap-2">
         <Dropzone ref={dropzoneRef} state={state} onClick={onBrowse} aria-describedby={rejection ? "classify-rejection" : undefined}>
-          <UploadIcon aria-hidden strokeWidth={ICON_STROKE} className="size-5 text-fg-tertiary" />
+          <IsoTray state={state} />
           <span className="text-body-sm font-medium text-fg-primary">Drop an image here, or browse</span>
           <span className="text-caption-lg text-fg-tertiary">JPEG, PNG or WebP, up to 10 MB</span>
         </Dropzone>
@@ -74,10 +78,21 @@ export function PickView({
 }
 
 function Preview({ src, alt }: { src: string; alt: string }) {
+  const credit = creditFor(src)
   return (
-    // Object URLs and local SVGs: next/image cannot optimise either.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={src} alt={alt} className="aspect-3/2 w-full rounded-lg border border-subtle bg-sunken object-contain" />
+    <figure className="flex flex-col gap-1.5">
+      {/* Object URLs and local photos: next/image adds nothing for one preview. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} className="aspect-3/2 w-full rounded-lg border border-subtle bg-sunken object-contain" />
+      {credit ? (
+        <figcaption className="text-caption-base text-fg-tertiary">
+          Photo: {credit.author} ·{" "}
+          <a href={credit.sourceUrl} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-fg-secondary">
+            {credit.license}, Wikimedia Commons
+          </a>
+        </figcaption>
+      ) : null}
+    </figure>
   )
 }
 
@@ -118,5 +133,14 @@ export function VerdictView({
         </Button>
       </div>
     </div>
+  )
+}
+
+// The black scan stage floats over the analysing view and fades out when the verdict lands.
+export function ScanOverlay({ screen }: { screen: ScreenState }) {
+  return (
+    <AnimatePresence>
+      {screen.status === "analysing" ? <ScanStage key="scan" src={screen.preview} step={screen.step} /> : null}
+    </AnimatePresence>
   )
 }

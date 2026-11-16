@@ -2,7 +2,9 @@
 
 import { useRef, useState, type DragEvent } from "react"
 
-import { AnalysingView, PickView, VerdictView } from "@/features/classify/classify-views"
+import { SCAN_CYCLE_MS } from "@/components/domain/scan-shader"
+
+import { AnalysingView, PickView, ScanOverlay, VerdictView } from "@/features/classify/classify-views"
 import { useClock } from "@/hooks/use-clock"
 import { useFakeAI } from "@/hooks/use-fake-ai"
 import { useFocusWhen } from "@/hooks/use-focus-when"
@@ -25,7 +27,8 @@ type Selection =
   | { kind: "rejected"; reason: string }
   | { kind: "picked"; preview: string; alt: string; input: ClassifyInput; phase: "preparing" | "running" }
 
-const ANALYSE_MS = 1300
+// One full scan loop (up, dwell, down, dwell), so the verdict lands as the line comes to rest.
+const ANALYSE_MS = SCAN_CYCLE_MS
 const NARRATION = ["Reading image", "Extracting features", "Evaluating..."] as const
 
 function deriveScreen(selection: Selection | null, ai: AIRun<ClassificationResult>): ScreenState {
@@ -166,6 +169,7 @@ function ClassifyFlow({ focusDropzoneOnMount }: { focusDropzoneOnMount: boolean 
         {screen.status === "analysing" ? (
           <AnalysingView preview={screen.preview} alt={screen.alt} step={screen.step} />
         ) : null}
+        <ScanOverlay screen={screen} />
         {screen.status === "verdict" ? (
           <VerdictView preview={screen.preview} alt={screen.alt} verdict={screen.result.verdict} onReset={reset} resetRef={resetRef} />
         ) : null}

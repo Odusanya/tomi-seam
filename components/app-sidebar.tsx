@@ -3,7 +3,7 @@
 import type { ComponentProps } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronsUpDownIcon, SearchIcon } from "lucide-react"
+import { ChevronUpDownIcon, MagnifyingGlassIcon } from "@heroicons/react/16/solid"
 
 import { Initials } from "@/components/domain/initials"
 import { NavCard } from "@/components/domain/nav-card"
@@ -21,12 +21,31 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { currentUser, navFooter, navGroups, workspace, type NavItem } from "@/lib/fixtures/nav"
+import { currentUser, navFooter, navGroups, SOON_TOOLTIP, workspace, type NavItem } from "@/lib/fixtures/nav"
 
-// One stroke for every sidebar icon (DESIGN.md: 1.5).
-const ICON_STROKE = 1.5
+// Unavailable item: a focusable button with aria-disabled (not a link), a "Soon" tag,
+// and a tooltip that shows in both expanded and collapsed states.
+function SoonRow({ item }: { item: NavItem }) {
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton
+        size="sm"
+        variant="soon"
+        aria-disabled="true"
+        tooltip={{ children: `${item.title} · ${SOON_TOOLTIP}`, hidden: false }}
+      >
+        <item.icon />
+        <span>{item.title}</span>
+      </SidebarMenuButton>
+      <SidebarMenuBadge>Soon</SidebarMenuBadge>
+    </SidebarMenuItem>
+  )
+}
 
 function NavRow({ item, pathname }: { item: NavItem; pathname: string }) {
+  if (item.soon) {
+    return <SoonRow item={item} />
+  }
   const active = item.href !== "#" && pathname === item.href
   return (
     <SidebarMenuItem>
@@ -36,7 +55,7 @@ function NavRow({ item, pathname }: { item: NavItem; pathname: string }) {
         isActive={active}
         render={
           <Link href={item.href} aria-current={active ? "page" : undefined}>
-            <item.icon strokeWidth={ICON_STROKE} className="group-data-active/menu-button:text-sidebar-primary" />
+            <item.icon className="group-data-active/menu-button:text-sidebar-primary" />
             <span>{item.title}</span>
           </Link>
         }
@@ -63,14 +82,14 @@ export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
               <SidebarMenuButton tooltip={workspace.name}>
                 <Initials kind="workspace">{workspace.initial}</Initials>
                 <span className="font-medium text-fg-primary">{workspace.name}</span>
-                <ChevronsUpDownIcon strokeWidth={ICON_STROKE} className="ml-auto text-fg-tertiary" />
+                <ChevronUpDownIcon className="ml-auto text-fg-tertiary" />
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
           <SidebarTrigger />
         </div>
         <Button variant="secondary" size="sm" aria-label="Search">
-          <SearchIcon strokeWidth={ICON_STROKE} />
+          <MagnifyingGlassIcon />
           <span className="flex-1 text-left text-fg-tertiary group-data-[collapsible=icon]:hidden">Search</span>
           <Kbd className="group-data-[collapsible=icon]:hidden">⌘K</Kbd>
         </Button>
