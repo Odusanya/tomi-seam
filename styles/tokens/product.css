@@ -41,9 +41,17 @@
      dropzone and sample tiles. The light accent (--sf-accent) is a fill/wash only, never a foreground. */
   --sidebar-ring: var(--sf-accent-deep);
 
-  /* Unavailable ("Soon") nav rows: quieter than live rows but still AA. 56% black is
-     about 4.9:1 on the white group card and 4.8:1 on the sidebar surface. Never lighter. */
-  --nav-soon-fg: rgb(0 0 0 / 0.56);
+  /* Text: solid Radix slate steps, not translucent neutral gray. The alpha grays read as
+     washed out on the cool sidebar and accent-wash surfaces; slate is the gray Radix pairs with blue.
+     12 = high-contrast text, 11 = low-contrast text, 9 = glyphs and hints only (not body text). */
+  --ui-fg-primary: var(--slate-12);
+  --ui-fg-secondary: var(--slate-11);
+  --ui-fg-tertiary: var(--slate-9);
+  --ui-fg-disabled: var(--slate-8);
+
+  /* Unavailable ("Soon") nav rows: quieter than live rows but still AA (about 4.9:1 on the
+     white group card). Never lighter. */
+  --nav-soon-fg: color-mix(in srgb, var(--slate-11) 70%, var(--slate-9));
 
   /* Seamflow ink: the fill of the one call to action ("Scan image"). --primary is untouched. */
   --ink-solid: #171717;

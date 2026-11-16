@@ -29,3 +29,6 @@
 /* Overlays, sunken wells, shadows. */
 @import "@radix-ui/colors/black-alpha.css";
 @import "@radix-ui/colors/white-alpha.css";
+
+/* Text ramp (product.css): slate, the Radix gray made to sit with blue accents. */
+@import "@radix-ui/colors/slate.css";
