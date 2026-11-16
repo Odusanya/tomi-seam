@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
+import { exampleFindings } from "@/lib/fixtures/example"
 import { people } from "@/lib/fixtures/vocab"
 
 export type NavItem = {
@@ -24,7 +25,7 @@ export type NavItem = {
 }
 export type NavGroup = { id: string; label?: string; items: NavItem[] }
 
-export const workspace = { name: "Halden Certification", initial: "H" }
+export const workspace = { name: "SeeFood", initial: "S" }
 export const currentUser = { name: people[0], initials: "AO" }
 
 export const navGroups: NavGroup[] = [
@@ -36,9 +37,9 @@ export const navGroups: NavGroup[] = [
     id: "work",
     label: "Work",
     items: [
-      { id: "assessments", title: "Assessments", href: "/", icon: SquareCheckIcon, count: 24 },
+      { id: "assessments", title: "Assessments", href: "#", icon: SquareCheckIcon, count: 24 },
       { id: "technical-files", title: "Technical files", href: "#", icon: FileIcon },
-      { id: "findings", title: "Findings", href: "#", icon: TriangleAlertIcon, count: 12 },
+      { id: "findings", title: "Findings", href: "/", icon: TriangleAlertIcon, count: exampleFindings.length },
       { id: "reports", title: "Reports", href: "#", icon: ChartNoAxesColumnIcon },
     ],
   },

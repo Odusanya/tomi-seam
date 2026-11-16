@@ -31,7 +31,7 @@ const fontPaperMono = localFont({
 
 // Rename on the day to the product in the brief.
 export const metadata: Metadata = {
-  title: "Assessments · Halden",
+  title: "Findings · SeeFood",
   description: "Prototype built for a design engineering task.",
   robots: { index: false, follow: false },
 }
