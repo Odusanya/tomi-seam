@@ -13,4 +13,6 @@
   --color-sev-obs: var(--sev-obs-solid);
   --color-sev-obs-subtle: var(--sev-obs-subtle);
   --color-sev-obs-fg: var(--sev-obs-fg);
+
+  --color-sidebar-active: var(--sidebar-active);
 }
