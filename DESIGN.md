@@ -18,7 +18,15 @@ Details live in `docs/yardsticks/`. Each rule has a reason so it can be defended
 - Hairlines, not boxes. Depth only for things that float (menus, popovers, dialogs).
 - Motion is functional: 120–200 ms, named properties, none on row hover.
 
+## Dashboards
+- **Colour only on the exception.** Everything else is neutral.
+- **Status is a glyph plus a neutral label**, not a tinted pill.
+- **Icons 16 px, 1.5 stroke**, muted icon colour.
+- **One row height**, everywhere in a table.
+- **A selected row gets a fill**, not a ring.
+- **Order: filters, then chart, then table.**
+
 ## Density
-- Rows: 41 px comfortable, 32 px compact. Controls: 28 px, 24 px compact.
+- Rows 36 px, compact 32 px (`data-density="compact"` on `Table`), header 32 px. 13 px text on a 20 px line; one line height per size. Controls: 28 px (`size="sm"`), 24 px compact (`size="xs"`).
 - Labels secondary and medium weight; values primary and regular.
 - Every list, table and panel has an empty, loading and error state.

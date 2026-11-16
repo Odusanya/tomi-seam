@@ -17,8 +17,8 @@
 [Cut and why. What I'd test with a real reviewer.]
 
 ## How I worked
-- Starter before the clock: this repo's first commit (Next 16, shadcn on Base UI, tokens, lint, fixtures helpers). No screens.
-- Built in the session: everything after that commit.
+- Starter before the clock: every commit up to the `starter` tag (Next 16, shadcn on Base UI, tokens, lint, fixtures helpers). No screens.
+- Built in the session: everything after that tag.
 - Agents: [what they did, how I reviewed it]. Lint (`@shadcn/lint`, `oxlint-tailwindcss`) kept their output on-system.
 - Data is dummy and deterministic (`lib/fixtures`). State is in the UI; no backend by design.
 
