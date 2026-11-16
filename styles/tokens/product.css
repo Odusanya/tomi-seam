@@ -21,6 +21,18 @@
   --sev-obs-solid: var(--ui-fg-tertiary);
   --sev-obs-subtle: var(--ui-component);
   --sev-obs-fg: var(--ui-fg-secondary);
+
+  /* Seamflow accent (Paper sf-accent*). The sidebar reads --sidebar-primary / --sidebar-active. */
+  --sf-accent: #8bb7ff;
+  --sf-accent-wash: #f0f6ff;
+  --sf-accent-deep: #1e3a5f;
+
+  /* Sidebar: one surface for the expanded sidebar and the rail (Paper sf-gray-50). */
+  --sidebar-surface: #f9fafb;
+  --sidebar: var(--sidebar-surface);
+  --sidebar-primary: var(--sf-accent-deep);
+  --sidebar-primary-foreground: var(--ui-on-standout);
+  --sidebar-active: var(--sf-accent-wash);
 }
 
 /* Use the fonts that next/font loads (layout.tsx), not system fallbacks. */
@@ -78,6 +90,8 @@
   --spacing-row-compact: 32px;
   --spacing-row: 36px;
   --spacing-table-header: 32px;
+  --spacing-sidebar: 240px;
+  --spacing-sidebar-rail: 48px;
 
   /* Bridge: shadcn primitives say text-sm; the product body size is 13 px (= text-body-sm). */
   --text-sm: 13px;

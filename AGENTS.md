@@ -26,7 +26,7 @@ A time-boxed prototype (about 3 hours). It is judged on design quality, density,
 
 | Folder | Layer | Rule |
 |---|---|---|
-| `components/ui/` | L1 primitives | shadcn (`base-rhea`: Base UI, not Radix). Add with `npx shadcn@latest add <name>`. Don't hand-edit unless asked. Exception: `table.tsx` is edited to read the density tokens, so `npx shadcn add table` would overwrite it |
+| `components/ui/` | L1 primitives | shadcn (`base-rhea`: Base UI, not Radix). Add with `npx shadcn@latest add <name>`. Don't hand-edit unless asked. Exceptions: `table.tsx` is edited to read the density tokens, and `sidebar.tsx` is edited to read the sidebar tokens (width, row metrics, active colour), so `npx shadcn add table` or `sidebar` would overwrite them |
 | `components/domain/` | L3 atoms | SeverityBadge, ClauseRef, Citation and so on. Variants via `cva`, colours via tokens |
 | `features/<name>/` | L4–L5 | One folder per screen or composite. Each owns its own state |
 | `lib/fixtures/` | data | Typed dummy data and the helpers above |
