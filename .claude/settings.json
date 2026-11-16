@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev)",
+      "Bash(npm run build)",
+      "Bash(npm run typecheck)",
+      "Bash(npm run lint)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run format)",
+      "Bash(npm run check)",
+      "Bash(npm run preview)",
+      "Bash(npx oxlint *)",
+      "Bash(npx tsc *)",
+      "Bash(npx shadcn@latest add *)",
+      "Bash(npx shadcn@latest docs *)",
+      "Bash(npx shadcn@latest search *)",
+      "Bash(npx shadcn@latest view *)",
+      "Bash(npx shadcn@latest info *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Edit(app/**)",
+      "Edit(components/**)",
+      "Edit(features/**)",
+      "Edit(hooks/**)",
+      "Edit(lib/**)",
+      "Edit(styles/**)",
+      "Edit(*.md)",
+      "Edit(docs/**)"
+    ],
+    "ask": [
+      "Bash(npm run deploy)",
+      "Bash(npm install *)",
+      "Bash(npm uninstall *)",
+      "Bash(npx wrangler *)",
+      "Bash(git push *)",
+      "Bash(git reset *)",
+      "Edit(package.json)",
+      "Edit(.oxlintrc.json)",
+      "Edit(wrangler.jsonc)",
+      "Edit(components/ui/**)"
+    ],
+    "deny": [
+      "Read(./.env*)",
+      "Read(./.dev.vars)"
+    ]
+  },
+  "env": {
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "spinnerTipsEnabled": false
+}
