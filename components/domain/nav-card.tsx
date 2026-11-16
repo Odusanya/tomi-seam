@@ -12,6 +12,8 @@ const navCardVariants = cva("flex flex-col", {
         "mb-2 gap-1 rounded-b-lg border-b border-default bg-container px-2 py-1.5 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:border-transparent group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:px-1",
       group:
         "mx-2 rounded-lg bg-page p-1 group-data-[collapsible=icon]:mx-1 group-data-[collapsible=icon]:rounded-xl group-data-[collapsible=icon]:shadow-default",
+      // No card: just lines footer rows up with the rows inside the group cards.
+      footer: "px-1 group-data-[collapsible=icon]:px-0",
     },
   },
 })

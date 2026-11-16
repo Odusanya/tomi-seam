@@ -13,7 +13,6 @@ import {
 } from "lucide-react"
 
 import { exampleFindings } from "@/lib/fixtures/example"
-import { people } from "@/lib/fixtures/vocab"
 
 export type NavItem = {
   id: string
@@ -26,7 +25,7 @@ export type NavItem = {
 export type NavGroup = { id: string; label?: string; items: NavItem[] }
 
 export const workspace = { name: "SeeFood", initial: "S" }
-export const currentUser = { name: people[0], initials: "AO" }
+export const currentUser = { name: "Tomi Odusanya", initials: "TO" }
 
 export const navGroups: NavGroup[] = [
   {

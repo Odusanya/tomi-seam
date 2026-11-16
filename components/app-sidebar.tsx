@@ -88,17 +88,19 @@ export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
-          {navFooter.map((item) => (
-            <NavRow key={item.id} item={item} pathname={pathname} />
-          ))}
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip={currentUser.name}>
-              <Initials kind="user">{currentUser.initials}</Initials>
-              <span className="text-fg-primary">{currentUser.name}</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavCard variant="footer">
+          <SidebarMenu>
+            {navFooter.map((item) => (
+              <NavRow key={item.id} item={item} pathname={pathname} />
+            ))}
+            <SidebarMenuItem>
+              <SidebarMenuButton size="sm" tooltip={currentUser.name}>
+                <Initials kind="user">{currentUser.initials}</Initials>
+                <span className="text-fg-primary">{currentUser.name}</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </NavCard>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
