@@ -8,8 +8,11 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "lint": "oxlint && npm run lint:deprecated",
+    "lint:deprecated": "oxlint --type-aware -A all -D typescript/no-deprecated --ignore-pattern \"components/ui/**\" app components lib hooks",
+    "lint:fix": "oxlint --fix",
     "format": "prettier --write \"**/*.{ts,tsx,css,md}\"",
-    "check": "npm run typecheck && npm run build"
+    "check": "npm run typecheck && npm run lint && npm run build"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -33,10 +36,14 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@shadcn/lint": "^0.2.5",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "oxlint": "^1.94.0",
+    "oxlint-tailwindcss": "^1.17.2",
+    "oxlint-tsgolint": "^7.0.2007",
     "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "shadcn": "^4.23.0",

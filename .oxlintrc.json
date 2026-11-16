@@ -1,0 +1,282 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "jsPlugins": [
+    "oxlint-tailwindcss",
+    "@shadcn/lint"
+  ],
+  "plugins": [
+    "eslint",
+    "typescript",
+    "unicorn",
+    "oxc",
+    "react",
+    "nextjs",
+    "jsx-a11y",
+    "import",
+    "promise"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "builtin": true
+  },
+  "settings": {
+    "react": {
+      "version": "19.3"
+    },
+    "jsx-a11y": {
+      "components": {
+        "Image": "img",
+        "Link": "a"
+      }
+    },
+    "tailwindcss": {
+      "entryPoint": "app/globals.css",
+      "exclude": {
+        "variablePatterns": [
+          "^styles?$"
+        ]
+      }
+    },
+    "shadcn": {
+      "note": "Design rules: DESIGN.md and docs/yardsticks/. Fix with a variant, size or token before adding classes."
+    }
+  },
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "error"
+  },
+  "ignorePatterns": [
+    ".next/**",
+    "node_modules/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    ".agents/**",
+    ".claude/**",
+    ".open-next/**",
+    ".wrangler/**"
+  ],
+  "rules": {
+    "complexity": [
+      "error",
+      8
+    ],
+    "max-depth": [
+      "error",
+      3
+    ],
+    "max-params": [
+      "error",
+      4
+    ],
+    "max-lines": [
+      "error",
+      {
+        "max": 400,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "no-else-return": "error",
+    "no-nested-ternary": "error",
+    "eqeqeq": [
+      "error",
+      "always"
+    ],
+    "curly": [
+      "error",
+      "all"
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react",
+            "importNames": [
+              "useEffect",
+              "useLayoutEffect"
+            ],
+            "message": "No effects in feature code. Derive during render, handle it in the event handler, or use a key. If an external system truly needs syncing, put it in hooks/ with a one-line reason."
+          }
+        ]
+      }
+    ],
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/no-unsafe-type-assertion": "off",
+    "typescript/consistent-type-imports": "error",
+    "import/no-cycle": "error",
+    "import/no-duplicates": "error",
+    "import/no-unassigned-import": [
+      "error",
+      {
+        "allow": [
+          "**/*.css",
+          "@fontsource-variable/*"
+        ]
+      }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-no-useless-fragment": "error",
+    "react/no-array-index-key": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "jsx-a11y/no-autofocus": [
+      "error",
+      {
+        "ignoreNonDOM": true
+      }
+    ],
+    "unicorn/prefer-modern-dom-apis": "error",
+    "unicorn/prefer-query-selector": "error",
+    "unicorn/prefer-dom-node-append": "error",
+    "unicorn/no-document-cookie": "error",
+    "tailwindcss/no-conflicting-classes": "error",
+    "tailwindcss/no-contradicting-variants": "error",
+    "tailwindcss/no-dark-without-light": "error",
+    "tailwindcss/no-duplicate-classes": "error",
+    "tailwindcss/no-unknown-classes": "error",
+    "tailwindcss/enforce-canonical": "error",
+    "tailwindcss/enforce-negative-arbitrary-values": "error",
+    "tailwindcss/no-deprecated-classes": "error",
+    "tailwindcss/prefer-scale-token": "error",
+    "tailwindcss/prefer-theme-tokens": "error",
+    "tailwindcss/consistent-variant-order": "warn",
+    "tailwindcss/enforce-consistent-important-position": "warn",
+    "tailwindcss/enforce-consistent-variable-syntax": "error",
+    "tailwindcss/enforce-shorthand": "error",
+    "tailwindcss/enforce-sort-order": "warn",
+    "tailwindcss/no-unnecessary-whitespace": "error",
+    "tailwindcss/no-borrowed-component-styles": "warn",
+    "tailwindcss/max-class-count": [
+      "warn",
+      {
+        "max": 20
+      }
+    ],
+    "tailwindcss/no-restricted-classes": [
+      "error",
+      {
+        "patterns": [
+          {
+            "pattern": "^text-(sm|base|lg)$",
+            "message": "Use the product scale: text-body-sm (13), text-caption-lg (12), text-caption-base (11) (see docs/yardsticks/type-density.md)."
+          },
+          {
+            "pattern": "^transition-all$",
+            "message": "Name the property: transition-colors, transition-opacity, transition-transform."
+          },
+          {
+            "pattern": "^shadow-(sm|md|2xl|inner)$",
+            "message": "Use the elevation tokens: shadow-default (in-page), shadow-lg / shadow-xl (menus, popovers)."
+          },
+          {
+            "pattern": "^space-[xy]-",
+            "message": "Use flex/grid with gap-*."
+          },
+          {
+            "pattern": "^(dark):",
+            "message": "Light theme only; tokens handle dark."
+          }
+        ]
+      }
+    ],
+    "shadcn/no-restyle": [
+      "error",
+      {
+        "allow": [
+          "layout"
+        ],
+        "message": {
+          "spacing": "Use a {{component}} size: {{sizes}}, or gap on the parent."
+        }
+      }
+    ],
+    "shadcn/no-raw-colors": [
+      "error",
+      {
+        "message": "Use a theme colour token from app/globals.css (styles/tokens)."
+      }
+    ],
+    "shadcn/no-arbitrary-values": "error",
+    "shadcn/no-inline-styles": "error",
+    "shadcn/require-static-classes": "error"
+  },
+  "overrides": [
+    {
+      "files": [
+        "components/ui/**",
+        "hooks/**"
+      ],
+      "rules": {
+        "no-restricted-imports": "off",
+        "complexity": "off",
+        "max-depth": "off",
+        "max-params": "off",
+        "max-lines": "off",
+        "curly": "off",
+        "no-nested-ternary": "off",
+        "react/no-array-index-key": "off",
+        "typescript/no-non-null-assertion": "off",
+        "eqeqeq": "off",
+        "no-shadow": "off",
+        "unicorn/no-document-cookie": "off",
+        "react/jsx-no-constructed-context-values": "off",
+        "react/set-state-in-effect": "off",
+        "jsx-a11y/prefer-tag-over-role": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off",
+        "jsx-a11y/label-has-associated-control": "off",
+        "jsx-a11y/anchor-has-content": "off",
+        "jsx-a11y/control-has-associated-label": "off",
+        "tailwindcss/enforce-canonical": "off",
+        "tailwindcss/no-conflicting-classes": "off",
+        "tailwindcss/no-unknown-classes": "off",
+        "tailwindcss/no-contradicting-variants": "off",
+        "tailwindcss/no-dark-without-light": "off",
+        "tailwindcss/no-duplicate-classes": "off",
+        "tailwindcss/no-dynamic-classes": "off",
+        "tailwindcss/enforce-negative-arbitrary-values": "off",
+        "tailwindcss/no-deprecated-classes": "off",
+        "tailwindcss/no-unnecessary-arbitrary-value": "off",
+        "tailwindcss/prefer-scale-token": "off",
+        "tailwindcss/prefer-theme-tokens": "off",
+        "tailwindcss/consistent-variant-order": "off",
+        "tailwindcss/enforce-consistent-important-position": "off",
+        "tailwindcss/enforce-consistent-variable-syntax": "off",
+        "tailwindcss/enforce-shorthand": "off",
+        "tailwindcss/enforce-sort-order": "off",
+        "tailwindcss/no-unnecessary-whitespace": "off",
+        "tailwindcss/no-default-palette": "off",
+        "tailwindcss/no-hardcoded-colors": "off",
+        "tailwindcss/no-borrowed-component-styles": "off",
+        "tailwindcss/max-class-count": "off",
+        "tailwindcss/no-restricted-classes": "off",
+        "shadcn/no-restyle": "off",
+        "shadcn/no-raw-colors": "off",
+        "shadcn/no-arbitrary-values": "off",
+        "shadcn/no-inline-styles": "off",
+        "shadcn/require-static-classes": "off"
+      }
+    }
+  ]
+}
