@@ -6,7 +6,8 @@ import localFont from "next/font/local"
 import "./globals.css"
 import { AppSidebar } from "@/components/app-sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { AppShell } from "@/components/app-shell"
+import { SidebarInset } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
@@ -50,10 +51,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <ThemeProvider>
           <TooltipProvider>
-            <SidebarProvider>
+            <AppShell>
               <AppSidebar />
               <SidebarInset>{children}</SidebarInset>
-            </SidebarProvider>
+            </AppShell>
             <Toaster />
           </TooltipProvider>
         </ThemeProvider>
