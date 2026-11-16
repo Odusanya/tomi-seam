@@ -23,7 +23,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { PanelLeftIcon } from "lucide-react"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -277,7 +276,14 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon />
+      {/* Solid 16 px panel glyph, drawn to sit with the Heroicons 16/solid nav icons (that set has no panel icon). */}
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M4 2.5h8A2.5 2.5 0 0 1 14.5 5v6a2.5 2.5 0 0 1-2.5 2.5H4A2.5 2.5 0 0 1 1.5 11V5A2.5 2.5 0 0 1 4 2.5ZM6.5 4v8H12a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H6.5Z"
+        />
+      </svg>
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )
