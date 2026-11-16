@@ -4,7 +4,7 @@
 // re-run started here shows its progress here and in the table at the same time.
 import { FlagIcon, RotateCcwIcon, Undo2Icon } from "lucide-react"
 import { Arc } from "loading-dev"
-import type { ReactNode } from "react"
+import { useRef, type ReactNode } from "react"
 
 import { CodeBlock } from "@/components/domain/code-block"
 import { CopyButton } from "@/components/domain/copy-button"
@@ -213,9 +213,20 @@ export function HistoryDetailSheet({
   onOpenChange,
   ...actions
 }: Props) {
+  const popup = useRef<HTMLDivElement>(null)
+  // Open on the close button. The default, the first tabbable, is the payload's copy button:
+  // it would scroll the body past the image and pop its tooltip.
+  const closeButton = () =>
+    popup.current?.querySelector<HTMLElement>('[data-slot="sheet-close"]') ??
+    true
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" size="lg">
+      <SheetContent
+        ref={popup}
+        side="right"
+        size="lg"
+        initialFocus={closeButton}
+      >
         {row ? <Details row={row} {...actions} /> : null}
       </SheetContent>
     </Sheet>
