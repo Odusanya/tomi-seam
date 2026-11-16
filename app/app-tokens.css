@@ -1,8 +1,5 @@
-/* Domain tokens (L0 additions). Source of truth: docs/yardsticks/tokens.md.
-   Aliases of existing scales, no new hues except the AI accent. */
+/* Domain tokens (L0 additions). Aliases of existing scales; the only new hue is the AI accent. Tailwind names: app-theme.css. */
 :root {
-  --brand: var(--ui-brand-solid);
-
   /* AI accent: machine output only. Never used for anything a person approved. */
   --ai-solid: var(--violet-9);
   --ai-subtle: var(--violet-3);
