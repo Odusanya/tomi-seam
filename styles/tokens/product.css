@@ -51,6 +51,10 @@
 }
 
 @theme {
+  /* Motion: product curves. ease-panel = layout panels (sidebar), ease-press = press feedback. */
+  --ease-panel: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-press: cubic-bezier(0.23, 1, 0.32, 1);
+
   /* Type: 13-step scale in px literals so density never resizes text */
   --font-weight-semimedium: 450;
   --text-caption-xs: 8px;
@@ -96,4 +100,22 @@
   /* Bridge: shadcn primitives say text-sm; the product body size is 13 px (= text-body-sm). */
   --text-sm: 13px;
   --text-sm--line-height: 20px;
+}
+
+/* Reduced motion: keep fades, drop movement and scale; panels snap. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    --tw-enter-scale: 1 !important;
+    --tw-exit-scale: 1 !important;
+    --tw-enter-translate-x: 0 !important;
+    --tw-enter-translate-y: 0 !important;
+    --tw-exit-translate-x: 0 !important;
+    --tw-exit-translate-y: 0 !important;
+  }
+  [data-slot="sidebar-gap"],
+  [data-slot="sidebar-container"],
+  [data-slot="sidebar-group-label"],
+  [data-slot="sidebar-menu-button"] {
+    transition-duration: 0s !important;
+  }
 }
