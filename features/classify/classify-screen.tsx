@@ -132,12 +132,29 @@ function ClassifyFlow({
     void start(sample.src, sample.alt, { source: "sample", sample })
   }
 
-  function pickFile(file: File) {
+  async function pickFile(file: File) {
     const reason = validateImage(file)
     if (reason) {
       token.current++
       releasePreview(selection)
       setSelection({ kind: "rejected", reason })
+      return
+    }
+    // A file that claims to be an image but cannot be decoded is rejected, not classified.
+    const before = ++token.current
+    const readable = await createImageBitmap(file).then(
+      (bitmap) => {
+        bitmap.close()
+        return true
+      },
+      () => false,
+    )
+    if (before !== token.current) {
+      return
+    }
+    if (!readable) {
+      releasePreview(selection)
+      setSelection({ kind: "rejected", reason: "That image could not be read. Try another file." })
       return
     }
     const url = URL.createObjectURL(file)
@@ -160,7 +177,7 @@ function ClassifyFlow({
     setDragging(false)
     const file = event.dataTransfer.files[0]
     if (file) {
-      pickFile(file)
+      void pickFile(file)
     }
   }
 
@@ -204,7 +221,7 @@ function ClassifyFlow({
             const file = event.currentTarget.files?.[0]
             event.currentTarget.value = ""
             if (file) {
-              pickFile(file)
+              void pickFile(file)
             }
           }}
           onSample={pickSample}

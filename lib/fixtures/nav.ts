@@ -1,7 +1,6 @@
 // Sidebar nav config. Icons are Heroicons 16/solid; swap one by editing its import and `icon` field here.
 import type { ComponentType, SVGProps } from "react"
 import {
-  AdjustmentsHorizontalIcon,
   ClipboardDocumentListIcon,
   ClockIcon,
   CubeIcon,
@@ -47,8 +46,4 @@ export const navGroups: NavGroup[] = [
       { id: "api-keys", title: "API keys", href: "#", icon: KeyIcon, soon: true },
     ],
   },
-]
-
-export const navFooter: NavItem[] = [
-  { id: "settings", title: "Settings", href: "#", icon: AdjustmentsHorizontalIcon },
 ]

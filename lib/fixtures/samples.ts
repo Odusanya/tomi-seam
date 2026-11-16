@@ -105,3 +105,8 @@ export const samples: readonly SampleImage[] = [
 export function creditFor(src: string): PhotoCredit | undefined {
   return samples.find((sample) => sample.src === src)?.credit
 }
+
+/** The sample's label for a preview URL, if it is one of the samples. */
+export function labelFor(src: string): string | undefined {
+  return samples.find((sample) => sample.src === src)?.label
+}

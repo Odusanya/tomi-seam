@@ -1,5 +1,8 @@
 // Display formats for History cells. Both are pure and locale-free, so the server and the
 // client render the same string (no Intl, no local time zone).
+import type { ClassificationResult } from "@/lib/fixtures/classification"
+import { labelFor } from "@/lib/fixtures/samples"
+
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] as const
 
 const pad = (value: number) => String(value).padStart(2, "0")
@@ -25,4 +28,10 @@ export function formatShown(shown: number, total: number): string {
 
 export function formatCount(count: number): string {
   return `${count} ${count === 1 ? "classification" : "classifications"}`
+}
+
+/** What the image is called: the uploaded file's name, the sample's label, or "Upload". */
+export function imageName(row: Pick<ClassificationResult, "fileName" | "source" | "thumbnail">): string {
+  if (row.fileName) return row.fileName
+  return (row.source === "sample" ? labelFor(row.thumbnail) : undefined) ?? "Upload"
 }

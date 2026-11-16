@@ -34,6 +34,15 @@ A reviewer wants a straight answer fast. An operator wants to check past answers
 
 Whether a reviewer expects metadata on the Classify screen. I held it back to keep the verdict loud. I'd watch five people try the app before deciding.
 
+## If I had more time
+
+- A richer scanning experience, with progress that reflects what the model is doing.
+- Full result detail on demand, including the raw model response.
+- Batch upload, so several images are scanned at the same time.
+- A real model behind the classify function.
+- Server-side history, so past results follow the user across devices.
+- Export of History to CSV.
+
 ## Run it
 
 ```bash

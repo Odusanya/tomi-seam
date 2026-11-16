@@ -20,10 +20,11 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { useScan } from "@/hooks/use-scan"
-import { currentUser, navFooter, navGroups, SOON_TOOLTIP, workspace, type NavItem } from "@/lib/fixtures/nav"
+import { currentUser, navGroups, SOON_TOOLTIP, workspace, type NavItem } from "@/lib/fixtures/nav"
 
 // Unavailable item: a focusable button with aria-disabled (not a link), a "Soon" tag,
 // and a tooltip that shows in both expanded and collapsed states.
@@ -77,6 +78,12 @@ function NavRow({ item, pathname, groupSoon }: { item: NavItem; pathname: string
 export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
   const { scan } = useScan()
+  const { setOpenMobile } = useSidebar()
+  // On mobile the sidebar is a sheet: close it so the Classify dialog isn't stacked on it.
+  const openClassify = () => {
+    setOpenMobile(false)
+    scan()
+  }
   return (
     <Sidebar variant="sidebar" collapsible="icon" {...props}>
       <NavCard variant="header">
@@ -94,7 +101,7 @@ export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
         {/* The one call to action, above the nav items: opens Classify in a dialog. */}
         <div className="px-2 pt-1 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
           <Tooltip>
-            <TooltipTrigger render={<ScanAction onClick={scan} />}>
+            <TooltipTrigger render={<ScanAction onClick={openClassify} />}>
               <ScanActionLabel>Classify image</ScanActionLabel>
             </TooltipTrigger>
             <TooltipContent side="right">Classify an image</TooltipContent>
@@ -123,11 +130,6 @@ export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         <NavCard variant="footer">
-          <SidebarMenu>
-            {navFooter.map((item) => (
-              <NavRow key={item.id} item={item} pathname={pathname} groupSoon={false} />
-            ))}
-          </SidebarMenu>
           {/* User row with the sidebar toggle at the bottom right; they stack in the rail. */}
           <div className="flex items-center group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:items-start group-data-[collapsible=icon]:gap-1">
             <SidebarMenu className="min-w-0 flex-1">

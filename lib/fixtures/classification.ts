@@ -20,6 +20,8 @@ export type ClassificationResult = {
   model: { name: string; version: string }
   classifiedAt: string // ISO string
   source: ClassificationSource
+  /** The uploaded file's name. Samples have none: their name is the sample's label. */
+  fileName?: string
 }
 
 export const MODEL = { name: "SeeFood", version: "2.1.0" } as const

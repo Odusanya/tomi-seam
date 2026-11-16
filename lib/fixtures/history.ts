@@ -5,16 +5,21 @@ import { samples } from "@/lib/fixtures/samples"
 
 const ROWS = 40
 const HOUR_MS = 3_600_000
+const UPLOAD_PREFIXES = ["IMG_", "PXL_", "DSC", "photo-"] as const
+const UPLOAD_EXTENSIONS = ["jpg", "jpeg", "png", "webp"] as const
 
 function buildHistory(): ClassificationResult[] {
   const rand = prng(1107)
+  // A second stream for file names, so naming uploads never shifts the rows drawn from `rand`.
+  const names = prng(2611)
   const nowMs = Date.parse(DEMO_NOW)
   let offset = 0
   return Array.from({ length: ROWS }, (_, index) => {
     offset += rand.int(1, 9) * HOUR_MS
     const sample = rand.pick(samples)
     const id = `cls_${rand.int(0x10000000, 0xffffffff).toString(16)}`
-    return {
+    const fileName = `${names.pick(UPLOAD_PREFIXES)}${names.int(1000, 9999)}.${names.pick(UPLOAD_EXTENSIONS)}`
+    const row: ClassificationResult = {
       id,
       thumbnail: sample.src,
       verdict: sample.verdict,
@@ -23,6 +28,7 @@ function buildHistory(): ClassificationResult[] {
       classifiedAt: new Date(nowMs - offset - index * 60_000).toISOString(),
       source: rand.next() < 0.4 ? "sample" : "upload",
     }
+    return row.source === "upload" ? { ...row, fileName } : row
   })
 }
 

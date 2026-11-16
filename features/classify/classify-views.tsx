@@ -62,7 +62,8 @@ export function PickView({
 }) {
   const state = dropzoneState(dragging, rejection)
   return (
-    <>
+    // Same centred column as SubjectView, so the frame keeps one size across states.
+    <div className="mx-auto flex w-full flex-col gap-3 sm:w-5/6">
       <Hud>
         <HudLabel>Ready</HudLabel>
       </Hud>
@@ -85,12 +86,9 @@ export function PickView({
       ) : null}
       <Below>
         <section aria-labelledby="classify-samples" className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <h2 id="classify-samples">
-              <HudLabel>Or try a sample</HudLabel>
-            </h2>
-            <HudLabel>{String(samples.length).padStart(2, "0")} frames</HudLabel>
-          </div>
+          <h2 id="classify-samples">
+            <HudLabel>Or try a sample</HudLabel>
+          </h2>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-9">
             {samples.map((sample) => (
               <SampleTile
@@ -104,7 +102,7 @@ export function PickView({
           </div>
         </section>
       </Below>
-    </>
+    </div>
   )
 }
 
@@ -142,14 +140,18 @@ function StepTicks({ step }: { step?: string }) {
 }
 
 // The verdict, stamped over the photo on its own white label so it reads on any image.
+// It waits for the scan stage's 200 ms fade, then rises into place; backwards fill keeps it
+// hidden during the delay.
 function Stamp({ result }: { result: ClassificationResult }) {
   return (
-    <output className="absolute bottom-5 left-5 flex animate-in items-center gap-3 rounded-lg border border-subtle bg-page px-3 py-2 shadow-default duration-200 fade-in motion-reduce:animate-none">
-      <VerdictMark verdict={result.verdict} size="md" />
-      <span className="font-mono text-body-sm text-fg-secondary tabular-nums">
-        {Math.round(result.confidence * 100)}%
-      </span>
-    </output>
+    <div className="absolute bottom-10 left-10 animate-in delay-150 duration-300 ease-panel fill-mode-backwards zoom-in-95 fade-in slide-in-from-bottom-2 motion-reduce:animate-none">
+      <output className="flex items-center gap-3 rounded-lg border border-subtle bg-page px-3 py-2 shadow-default">
+        <VerdictMark verdict={result.verdict} size="md" />
+        <span className="font-mono text-body-sm text-fg-secondary tabular-nums">
+          {Math.round(result.confidence * 100)}%
+        </span>
+      </output>
+    </div>
   )
 }
 
@@ -210,8 +212,11 @@ export function SubjectView({
       </Hud>
       <Viewfinder state={result ? "verdict" : "scanning"}>
         {/* Object URLs and local photos: next/image adds nothing for one preview. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={preview} alt={alt} className="absolute inset-0 size-full object-contain" />
+        {/* Inset inside the brackets so the photo has breathing room; the frame keeps full width. */}
+        <div className="absolute inset-8 flex items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={preview} alt={alt} className="max-h-full max-w-full rounded-md object-contain" />
+        </div>
         <AnimatePresence>
           {result ? null : <ScanStage key="scan" placement="frame" src={preview} step={step} />}
         </AnimatePresence>
