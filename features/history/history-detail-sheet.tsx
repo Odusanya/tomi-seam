@@ -6,9 +6,10 @@ import { FlagIcon, RotateCcwIcon, Undo2Icon } from "lucide-react"
 import { Arc } from "loading-dev"
 import type { ReactNode } from "react"
 
+import { CodeBlock } from "@/components/domain/code-block"
+import { CopyButton } from "@/components/domain/copy-button"
 import { Thumbnail } from "@/components/domain/thumbnail"
 import { VerdictBadge } from "@/components/domain/verdict-badge"
-import { VERDICT_GLYPH } from "@/components/domain/verdict-mark"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -18,10 +19,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
-import { formatClassifiedAt, formatConfidence } from "@/features/history/format"
+import {
+  formatClassifiedAt,
+  formatConfidence,
+  imageName,
+} from "@/features/history/format"
 import type { HistoryRow } from "@/features/history/row-edits"
 import type { RowActions } from "@/features/history/verdict-menu"
-import { VERDICT_LABEL } from "@/lib/fixtures/classification"
 
 const ICON_STROKE = 1.5
 const SOURCE_LABEL = { sample: "Sample photo", upload: "Upload" } as const
@@ -57,27 +61,40 @@ function Status({ row }: { row: HistoryRow }) {
   }
 }
 
+/** The row as the API would return it. Built every render, so it follows re-runs and appeals. */
+function payloadFor(row: HistoryRow): string {
+  return JSON.stringify(
+    {
+      id: row.id,
+      verdict: row.verdict,
+      confidence: row.confidence,
+      model: row.model,
+      classifiedAt: row.classifiedAt,
+      source: row.source,
+      ...(row.fileName ? { fileName: row.fileName } : {}),
+      status: row.status,
+      ...(row.status === "appealed" ? { appealReason: row.appealReason } : {}),
+    },
+    null,
+    2
+  )
+}
+
 function Details({
   row,
   onRetry,
   onAppeal,
   onWithdraw,
 }: { row: HistoryRow } & RowActions) {
-  const Glyph = VERDICT_GLYPH[row.verdict]
+  const name = imageName(row)
+  const payload = payloadFor(row)
   const appealed = row.status === "appealed"
   const running = row.status === "running"
   return (
     <>
       <SheetHeader>
         <SheetTitle>
-          <span className="inline-flex items-center gap-2">
-            <Glyph
-              aria-hidden
-              strokeWidth={ICON_STROKE}
-              className="size-4 shrink-0"
-            />
-            {VERDICT_LABEL[row.verdict]}
-          </span>
+          <span className="block truncate">{name}</span>
         </SheetTitle>
         <SheetDescription>
           <span className="font-mono">{row.id}</span>
@@ -88,7 +105,7 @@ function Details({
         <div className="relative">
           <Thumbnail
             src={row.thumbnail}
-            alt={`Classified image ${row.id}`}
+            alt={name}
             size="hero"
           />
           <VerdictBadge
@@ -132,6 +149,20 @@ function Details({
           </Property>
           <Property label="Source">{SOURCE_LABEL[row.source]}</Property>
         </dl>
+
+        <section aria-labelledby="history-payload" className="flex flex-col gap-2 pb-6">
+          <h3
+            id="history-payload"
+            className="text-caption-lg font-medium text-fg-secondary"
+          >
+            Payload
+          </h3>
+          <CodeBlock
+            code={payload}
+            aria-label="Classification payload as JSON"
+            action={<CopyButton value={payload} label="Copy payload" />}
+          />
+        </section>
       </div>
 
       <SheetFooter>
