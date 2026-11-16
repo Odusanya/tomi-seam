@@ -88,8 +88,12 @@ function SidebarProvider({
     [setOpenProp, open]
   )
 
+  // Keyboard toggles snap (no animation); pointer toggles animate.
+  const [instant, setInstant] = React.useState(false)
+
   // Helper to toggle the sidebar.
   const toggleSidebar = React.useCallback(() => {
+    setInstant(false)
     return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
   }, [isMobile, setOpen, setOpenMobile])
 
@@ -102,6 +106,7 @@ function SidebarProvider({
       ) {
         event.preventDefault()
         toggleSidebar()
+        setInstant(true)
       }
     }
 
@@ -130,6 +135,7 @@ function SidebarProvider({
     <SidebarContext.Provider value={contextValue}>
       <div
         data-slot="sidebar-wrapper"
+        data-instant={instant || undefined}
         style={
           {
             "--sidebar-width": SIDEBAR_WIDTH,

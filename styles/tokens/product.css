@@ -102,6 +102,16 @@
   --text-sm--line-height: 20px;
 }
 
+/* Keyboard toggles (⌘B) snap: frequent actions don't animate. Pointer toggles keep ease-panel. */
+[data-slot="sidebar-wrapper"][data-instant] :is(
+    [data-slot="sidebar-gap"],
+    [data-slot="sidebar-container"],
+    [data-slot="sidebar-group-label"],
+    [data-slot="sidebar-menu-button"]
+  ) {
+  transition-duration: 0s;
+}
+
 /* Reduced motion: keep fades, drop movement and scale; panels snap. */
 @media (prefers-reduced-motion: reduce) {
   * {
