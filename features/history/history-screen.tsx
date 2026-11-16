@@ -79,17 +79,20 @@ function HistoryList({ rows }: ListProps) {
 
   return (
     <>
+      {/* Search and filters sit in the header, opposite the title and count they change. */}
       <PageHeader
         title="History"
         count={formatShown(visible.length, rows.length)}
+        actions={
+          <HistoryToolbar
+            query={query}
+            onQueryChange={setQuery}
+            verdict={verdict}
+            onVerdictChange={setVerdict}
+          />
+        }
       />
       <PageBody>
-        <HistoryToolbar
-          query={query}
-          onQueryChange={setQuery}
-          verdict={verdict}
-          onVerdictChange={setVerdict}
-        />
         <HistoryTable
           rows={visible}
           openId={detailOpen ? detailId : null}

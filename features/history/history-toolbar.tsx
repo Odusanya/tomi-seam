@@ -11,7 +11,8 @@ type Props = {
   onVerdictChange: (verdict: VerdictFilter) => void
 }
 
-// Filters first, then the table. The row count sits beside the page title, not here. Every control is 28 px and shares the rounded-md family.
+// Lives in the page header's right slot, opposite the title and count. The bar is a fixed 48 px,
+// so the controls never wrap; the search narrows on small screens instead. Every control is 28 px.
 export function HistoryToolbar({
   query,
   onQueryChange,
@@ -19,9 +20,9 @@ export function HistoryToolbar({
   onVerdictChange,
 }: Props) {
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex items-center gap-2">
       <SearchField
-        className="w-full sm:w-70"
+        className="w-40 sm:w-70"
         label="Search by ID"
         placeholder="Search by ID"
         value={query}
