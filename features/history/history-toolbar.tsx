@@ -1,21 +1,35 @@
 "use client"
 
+import { TriangleAlertIcon } from "lucide-react"
+
+import { FilterToggle } from "@/components/domain/filter-toggle"
 import { SearchField } from "@/components/domain/search-field"
 import { SegmentedControl } from "@/components/domain/segmented-control"
-import { VERDICT_FILTERS, type VerdictFilter } from "@/features/history/filter"
-import { formatCount } from "@/features/history/format"
+import {
+  LOW_LABEL,
+  VERDICT_FILTERS,
+  type VerdictFilter,
+} from "@/features/history/filter"
 
 type Props = {
   query: string
   onQueryChange: (query: string) => void
   verdict: VerdictFilter
   onVerdictChange: (verdict: VerdictFilter) => void
-  /** Rows shown after filtering. */
-  count: number
+  /** Only rows below the confidence cut-off. */
+  lowOnly: boolean
+  onLowOnlyChange: (lowOnly: boolean) => void
 }
 
-// Filters first, then the table. Every control is 28 px and shares the rounded-md family.
-export function HistoryToolbar({ query, onQueryChange, verdict, onVerdictChange, count }: Props) {
+// Filters first, then the table. The row count sits beside the page title, not here. Every control is 28 px and shares the rounded-md family.
+export function HistoryToolbar({
+  query,
+  onQueryChange,
+  verdict,
+  onVerdictChange,
+  lowOnly,
+  onLowOnlyChange,
+}: Props) {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <SearchField
@@ -31,9 +45,14 @@ export function HistoryToolbar({ query, onQueryChange, verdict, onVerdictChange,
         value={verdict}
         onValueChange={onVerdictChange}
       />
-      <p aria-live="polite" className="ml-auto text-caption-lg text-fg-tertiary tabular-nums">
-        {formatCount(count)}
-      </p>
+      <FilterToggle pressed={lowOnly} onPressedChange={onLowOnlyChange}>
+        <TriangleAlertIcon
+          aria-hidden
+          strokeWidth={1.5}
+          className="size-3.5 text-fg-warning"
+        />
+        {LOW_LABEL}
+      </FilterToggle>
     </div>
   )
 }

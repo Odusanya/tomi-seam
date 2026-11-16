@@ -18,6 +18,11 @@ export function formatClassifiedAt(iso: string): string {
   return `${day} ${month} ${date.getUTCFullYear()}, ${time}`
 }
 
+/** The header count: "40", or "7 of 40" while a filter or search hides some rows. */
+export function formatShown(shown: number, total: number): string {
+  return shown === total ? String(total) : `${shown} of ${total}`
+}
+
 export function formatCount(count: number): string {
   return `${count} ${count === 1 ? "classification" : "classifications"}`
 }

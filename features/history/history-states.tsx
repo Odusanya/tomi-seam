@@ -1,9 +1,21 @@
 import { HistoryIcon, SearchIcon, TriangleAlertIcon } from "lucide-react"
 import Link from "next/link"
 
-import { Alert, AlertAction, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
 import { VERDICT_LABEL } from "@/lib/fixtures/classification"
 import type { VerdictFilter } from "@/features/history/filter"
 
@@ -16,7 +28,9 @@ export function HistoryEmpty() {
           <HistoryIcon aria-hidden strokeWidth={1.5} />
         </EmptyMedia>
         <EmptyTitle>No classifications yet</EmptyTitle>
-        <EmptyDescription>Classified images are listed here, newest first.</EmptyDescription>
+        <EmptyDescription>
+          Classified images are listed here, newest first.
+        </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <Link href="/" className={buttonVariants({ variant: "secondary" })}>
@@ -30,12 +44,27 @@ export function HistoryEmpty() {
 type NoResultsProps = {
   query: string
   verdict: VerdictFilter
+  /** The low-confidence filter is on. */
+  lowOnly?: boolean
   onClearQuery: () => void
+  /** Resets the verdict filter and the low-confidence filter. */
   onClearVerdict: () => void
 }
 
+// What the filters (not the search) are asking for, in words.
+function filterPhrase(verdict: VerdictFilter, lowOnly: boolean): string {
+  const which = verdict === "all" ? "classification" : `${VERDICT_LABEL[verdict]} verdict`
+  return lowOnly ? `No ${which} is below the confidence cut-off.` : `No ${which} matches.`
+}
+
 /** There is data, but the search or the verdict filter hides all of it. */
-export function HistoryNoResults({ query, verdict, onClearQuery, onClearVerdict }: NoResultsProps) {
+export function HistoryNoResults({
+  query,
+  verdict,
+  lowOnly = false,
+  onClearQuery,
+  onClearVerdict,
+}: NoResultsProps) {
   const term = query.trim()
   return (
     <Empty>
@@ -47,11 +76,12 @@ export function HistoryNoResults({ query, verdict, onClearQuery, onClearVerdict 
         <EmptyDescription>
           {term ? (
             <>
-              No ID contains <span className="font-mono text-fg-secondary">{term}</span>
+              No ID contains{" "}
+              <span className="font-mono text-fg-secondary">{term}</span>
               {verdict === "all" ? "." : ` in ${VERDICT_LABEL[verdict]}.`}
             </>
           ) : (
-            "No classification has this verdict."
+            filterPhrase(verdict, lowOnly)
           )}
         </EmptyDescription>
       </EmptyHeader>
@@ -62,7 +92,7 @@ export function HistoryNoResults({ query, verdict, onClearQuery, onClearVerdict 
           </Button>
         ) : (
           <Button variant="ghost" size="sm" onClick={onClearVerdict}>
-            Show all verdicts
+            Clear filters
           </Button>
         )}
       </EmptyContent>
@@ -71,7 +101,13 @@ export function HistoryNoResults({ query, verdict, onClearQuery, onClearVerdict 
 }
 
 /** The list failed to load: say what failed and offer a retry. */
-export function HistoryError({ message, onRetry }: { message: string; onRetry: () => void }) {
+export function HistoryError({
+  message,
+  onRetry,
+}: {
+  message: string
+  onRetry: () => void
+}) {
   return (
     <Alert variant="destructive">
       <TriangleAlertIcon aria-hidden strokeWidth={1.5} />

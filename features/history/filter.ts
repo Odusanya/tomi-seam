@@ -1,6 +1,14 @@
 // Filtering for the History table: a verdict filter and a search by ID. Pure functions,
 // so the screen derives the visible rows during render.
-import type { ClassificationResult, Verdict } from "@/lib/fixtures/classification"
+import {
+  LOW_CONFIDENCE,
+  type ClassificationResult,
+  type Verdict,
+} from "@/lib/fixtures/classification"
+import { formatConfidence } from "@/features/history/format"
+
+/** The toolbar label for the low-confidence filter, e.g. "Below 75%". */
+export const LOW_LABEL = `Below ${formatConfidence(LOW_CONFIDENCE)}`
 
 export type VerdictFilter = "all" | Verdict
 
@@ -28,10 +36,24 @@ export function matchesVerdict(row: ClassificationResult, filter: VerdictFilter)
   return filter === "all" || row.verdict === filter
 }
 
+/**
+ * A model verdict below the cut-off. An appealed row is a person's verdict, so the model's
+ * confidence no longer describes it and it never counts as low.
+ */
+export function isLowConfidence(row: ClassificationResult & { status?: string }): boolean {
+  return row.status !== "appealed" && row.confidence < LOW_CONFIDENCE
+}
+
 export function filterHistory<Row extends ClassificationResult>(
   rows: readonly Row[],
   filter: VerdictFilter,
   query: string,
+  { lowOnly = false }: { lowOnly?: boolean } = {},
 ): Row[] {
-  return rows.filter((row) => matchesVerdict(row, filter) && matchesQuery(row, query))
+  return rows.filter(
+    (row) =>
+      matchesVerdict(row, filter) &&
+      matchesQuery(row, query) &&
+      (!lowOnly || isLowConfidence(row)),
+  )
 }

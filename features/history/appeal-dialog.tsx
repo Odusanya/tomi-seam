@@ -44,7 +44,10 @@ function AppealForm({ row, onSubmit }: FormProps) {
         </DialogDescription>
       </DialogHeader>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="appeal-reason" className="text-caption-lg font-medium text-fg-secondary">
+        <label
+          htmlFor="appeal-reason"
+          className="text-caption-lg font-medium text-fg-secondary"
+        >
           Reason
         </label>
         <Textarea
@@ -61,7 +64,9 @@ function AppealForm({ row, onSubmit }: FormProps) {
         </p>
       </div>
       <DialogFooter>
-        <DialogClose render={<Button variant="outline" size="sm" />}>Cancel</DialogClose>
+        <DialogClose render={<Button variant="outline" size="sm" />}>
+          Cancel
+        </DialogClose>
         <Button type="submit" size="sm" disabled={!ready}>
           {`Change to ${next}`}
         </Button>
@@ -83,7 +88,13 @@ export function AppealDialog({ row, open, onOpenChange, onAppeal }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         {/* Keyed by row, so a new appeal starts with an empty reason. */}
-        {row ? <AppealForm key={row.id} row={row} onSubmit={(reason) => onAppeal(row, reason)} /> : null}
+        {row ? (
+          <AppealForm
+            key={row.id}
+            row={row}
+            onSubmit={(reason) => onAppeal(row, reason)}
+          />
+        ) : null}
       </DialogContent>
     </Dialog>
   )
