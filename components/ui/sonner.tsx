@@ -11,6 +11,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
     <Sonner
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
+      position="bottom-left"
       icons={{
         success: (
           <CircleCheckIcon className="size-4" />
@@ -25,20 +26,23 @@ const Toaster = ({ ...props }: ToasterProps) => {
           <OctagonXIcon className="size-4" />
         ),
         loading: (
-          <Loader2Icon className="size-4 animate-spin" />
+          <Loader2Icon className="size-4 animate-spin motion-reduce:animate-none" />
         ),
       }}
       style={
         {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
+          // Ink treatment, same tokens as the "Scan image" button (product.css).
+          "--normal-bg": "var(--ink-solid)",
+          "--normal-text": "var(--ui-on-inverted)",
+          "--normal-border": "var(--ink-solid)",
           "--border-radius": "var(--radius)",
         } as React.CSSProperties
       }
       toastOptions={{
         classNames: {
           toast: "cn-toast",
+          // Sonner's light theme greys the description to #3f3f3f, which is 1.7:1 on ink.
+          description: "!text-on-inverted/75",
         },
       }}
       {...props}

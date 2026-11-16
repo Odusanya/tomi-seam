@@ -269,8 +269,8 @@ function SidebarTrigger({
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
       variant="ghost"
-      size="icon-sm"
-      className={cn(className)}
+      size="icon-touch"
+      className={cn("focus-visible:border-sidebar-ring focus-visible:ring-sidebar-ring", className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()

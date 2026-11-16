@@ -6,6 +6,9 @@ import "./globals.css"
 import { AppSidebar } from "@/components/app-sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AppShell } from "@/components/app-shell"
+import { StartupToast } from "@/components/startup-toast"
+import { MobileBar } from "@/components/mobile-bar"
+import { ScanProvider } from "@/hooks/use-scan"
 import { SidebarInset } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
@@ -31,8 +34,8 @@ const fontPaperMono = localFont({
 
 // Rename on the day to the product in the brief.
 export const metadata: Metadata = {
-  title: "Findings · SeeFood",
-  description: "Prototype built for a design engineering task.",
+  title: "SeeFood",
+  description: "Classifies an image as Hot Dog or Not Hot Dog. Inference is simulated.",
   robots: { index: false, follow: false },
 }
 
@@ -42,11 +45,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <ThemeProvider>
           <TooltipProvider>
-            <AppShell>
-              <AppSidebar />
-              <SidebarInset>{children}</SidebarInset>
-            </AppShell>
+            <ScanProvider>
+              <AppShell>
+                <AppSidebar />
+                <SidebarInset>
+                  <MobileBar />
+                  {children}
+                </SidebarInset>
+              </AppShell>
+            </ScanProvider>
             <Toaster />
+            <StartupToast />
           </TooltipProvider>
         </ThemeProvider>
       </body>
