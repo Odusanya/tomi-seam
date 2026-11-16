@@ -178,7 +178,7 @@
       {
         "patterns": [
           {
-            "pattern": "^text-(sm|base|lg)$",
+            "pattern": "^text-(xs|sm|base|lg|xl|[2-9]xl)$",
             "message": "Use the product scale: text-body-sm (13), text-caption-lg (12), text-caption-base (11) (see docs/yardsticks/type-density.md)."
           },
           {
@@ -196,6 +196,10 @@
           {
             "pattern": "^(dark):",
             "message": "Light theme only; tokens handle dark."
+          },
+          {
+            "pattern": "^outline-(none|hidden)$",
+            "message": "Keep the focus outline. The global 1 px inset outline is the focus style."
           }
         ]
       }
@@ -219,9 +223,116 @@
     ],
     "shadcn/no-arbitrary-values": "error",
     "shadcn/no-inline-styles": "error",
-    "shadcn/require-static-classes": "error"
+    "shadcn/require-static-classes": "error",
+    "no-restricted-properties": [
+      "error",
+      {
+        "object": "Math",
+        "property": "random",
+        "message": "Use prng() from lib/fixtures/prng.ts."
+      },
+      {
+        "object": "Date",
+        "property": "now",
+        "message": "Use DEMO_NOW from lib/fixtures/prng.ts."
+      }
+    ]
   },
   "overrides": [
+    {
+      "files": [
+        "lib/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "react",
+                "importNames": [
+                  "useEffect",
+                  "useLayoutEffect"
+                ],
+                "message": "No effects in feature code. Derive during render, handle it in the event handler, or use a key. If an external system truly needs syncing, put it in hooks/ with a one-line reason."
+              }
+            ],
+            "patterns": [
+              {
+                "group": [
+                  "@/app/**",
+                  "@/features/**",
+                  "@/components/**",
+                  "@/hooks/**"
+                ],
+                "message": "lib/ is data only. Imports flow down: app → features → domain → ui."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "components/domain/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "react",
+                "importNames": [
+                  "useEffect",
+                  "useLayoutEffect"
+                ],
+                "message": "No effects in feature code. Derive during render, handle it in the event handler, or use a key. If an external system truly needs syncing, put it in hooks/ with a one-line reason."
+              }
+            ],
+            "patterns": [
+              {
+                "group": [
+                  "@/app/**",
+                  "@/features/**"
+                ],
+                "message": "Imports flow down: app → features → domain → ui."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "react",
+                "importNames": [
+                  "useEffect",
+                  "useLayoutEffect"
+                ],
+                "message": "No effects in feature code. Derive during render, handle it in the event handler, or use a key. If an external system truly needs syncing, put it in hooks/ with a one-line reason."
+              }
+            ],
+            "patterns": [
+              {
+                "group": [
+                  "@/app/**"
+                ],
+                "message": "Imports flow down: app → features → domain → ui."
+              }
+            ]
+          }
+        ]
+      }
+    },
     {
       "files": [
         "components/ui/**",
@@ -275,7 +386,8 @@
         "shadcn/no-raw-colors": "off",
         "shadcn/no-arbitrary-values": "off",
         "shadcn/no-inline-styles": "off",
-        "shadcn/require-static-classes": "off"
+        "shadcn/require-static-classes": "off",
+        "no-restricted-properties": "off"
       }
     }
   ]
