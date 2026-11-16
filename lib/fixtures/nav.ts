@@ -21,7 +21,7 @@ export type NavItem = {
 }
 export type NavGroup = { id: string; label?: string; items: NavItem[] }
 
-export const workspace = { name: "Image classifier", initial: "I" }
+export const workspace = { name: "Silicon", initial: "S" }
 export const currentUser = { name: "Tomi Odusanya", initials: "TO" }
 
 export const SOON_TOOLTIP = "Not available in the sandbox"
