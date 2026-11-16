@@ -2,20 +2,18 @@
 import { cva, type VariantProps } from "class-variance-authority"
 import type { ComponentProps } from "react"
 
+import { chipBase } from "@/components/domain/chip"
 import { cn } from "@/lib/utils"
 
-const severityBadgeVariants = cva(
-  "inline-flex h-5 shrink-0 items-center gap-1.5 rounded-sm px-1.5 text-caption-lg font-medium capitalize",
-  {
-    variants: {
-      severity: {
-        major: "bg-sev-major-subtle text-sev-major-fg",
-        minor: "bg-sev-minor-subtle text-sev-minor-fg",
-        observation: "bg-sev-obs-subtle text-sev-obs-fg",
-      },
+const severityBadgeVariants = cva(`${chipBase()} capitalize`, {
+  variants: {
+    severity: {
+      major: "bg-sev-major-subtle text-sev-major-fg",
+      minor: "bg-sev-minor-subtle text-sev-minor-fg",
+      observation: "bg-sev-obs-subtle text-sev-obs-fg",
     },
   },
-)
+})
 
 const dotVariants = cva("size-1.5 rounded-full", {
   variants: {
