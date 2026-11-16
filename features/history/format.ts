@@ -32,6 +32,8 @@ export function formatCount(count: number): string {
 
 /** What the image is called: the uploaded file's name, the sample's label, or "Upload". */
 export function imageName(row: Pick<ClassificationResult, "fileName" | "source" | "thumbnail">): string {
-  if (row.fileName) return row.fileName
+  if (row.fileName) {
+    return row.fileName
+  }
   return (row.source === "sample" ? labelFor(row.thumbnail) : undefined) ?? "Upload"
 }
