@@ -1,18 +1,20 @@
 // Sidebar nav config. Swap an icon by editing its import and `icon` field here.
-import { HistoryIcon, ScanSearchIcon, type LucideIcon } from "lucide-react"
+import { HistoryIcon, ScanSearchIcon, SlidersHorizontalIcon, type LucideIcon } from "lucide-react"
 
 export type NavItem = {
   id: string
   title: string
   href: string
   icon: LucideIcon
+  count?: number
+  unread?: boolean
 }
 export type NavGroup = { id: string; label?: string; items: NavItem[] }
 
 export const workspace = { name: "SeeFood", initial: "S" }
 export const currentUser = { name: "Tomi Odusanya", initials: "TO" }
 
-// Exactly two destinations. Nothing here may point at "#".
+// Content from the classify app: exactly two destinations.
 export const navGroups: NavGroup[] = [
   {
     id: "main",
@@ -21,4 +23,8 @@ export const navGroups: NavGroup[] = [
       { id: "history", title: "History", href: "/history", icon: HistoryIcon },
     ],
   },
+]
+
+export const navFooter: NavItem[] = [
+  { id: "settings", title: "Settings", href: "#", icon: SlidersHorizontalIcon },
 ]

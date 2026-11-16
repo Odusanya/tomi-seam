@@ -3,65 +3,52 @@
 import type { ComponentProps } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ScanLineIcon } from "lucide-react"
+import { ChevronsUpDownIcon, SearchIcon } from "lucide-react"
 
 import { Initials } from "@/components/domain/initials"
 import { NavCard } from "@/components/domain/nav-card"
-import { SandboxLabel } from "@/components/domain/sandbox-label"
-import { ScanAction } from "@/components/domain/scan-action"
+import { Button } from "@/components/ui/button"
+import { Kbd } from "@/components/ui/kbd"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
   SidebarTrigger,
-  useSidebar,
 } from "@/components/ui/sidebar"
-import { useScan } from "@/hooks/use-scan"
-import { currentUser, navGroups, workspace, type NavItem } from "@/lib/fixtures/nav"
+import { currentUser, navFooter, navGroups, workspace, type NavItem } from "@/lib/fixtures/nav"
 
 // One stroke for every sidebar icon (DESIGN.md: 1.5).
 const ICON_STROKE = 1.5
 
 function NavRow({ item, pathname }: { item: NavItem; pathname: string }) {
-  const { setOpenMobile } = useSidebar()
-  const active = pathname === item.href
+  const active = item.href !== "#" && pathname === item.href
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
         size="sm"
-        tooltip={item.title}
+        tooltip={item.unread && item.count ? `${item.title} · ${item.count}` : item.title}
         isActive={active}
         render={
-          <Link href={item.href} aria-current={active ? "page" : undefined} onClick={() => setOpenMobile(false)}>
+          <Link href={item.href} aria-current={active ? "page" : undefined}>
             <item.icon strokeWidth={ICON_STROKE} className="group-data-active/menu-button:text-sidebar-primary" />
             <span>{item.title}</span>
           </Link>
         }
       />
+      {item.count ? <SidebarMenuBadge>{item.count}</SidebarMenuBadge> : null}
+      {item.unread ? (
+        <span
+          aria-hidden
+          className="absolute top-1 right-1.5 hidden size-1.5 rounded-full bg-sidebar-primary group-data-[collapsible=icon]:block"
+        />
+      ) : null}
     </SidebarMenuItem>
-  )
-}
-
-// The page's one call to action. Always lands on the Classify idle screen: the link covers
-// navigation from /history, the scan() bump resets Classify when already on /.
-function ScanImageButton() {
-  const { scan } = useScan()
-  const { setOpenMobile } = useSidebar()
-  return (
-    <ScanAction
-      href="/"
-      onClick={() => {
-        scan()
-        setOpenMobile(false)
-      }}
-    >
-      <ScanLineIcon aria-hidden strokeWidth={ICON_STROKE} />
-      <span className="group-data-[collapsible=icon]:hidden">Scan image</span>
-    </ScanAction>
   )
 }
 
@@ -71,20 +58,27 @@ export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
     <Sidebar variant="sidebar" collapsible="icon" {...props}>
       <NavCard variant="header">
         <div className="flex items-center group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:gap-0.5">
-          <div className="flex min-w-0 flex-1 items-center gap-2 px-2 py-1">
-            <Initials kind="workspace">{workspace.initial}</Initials>
-            <span className="flex min-w-0 flex-col items-start gap-0.5 group-data-[collapsible=icon]:hidden">
-              <span className="truncate font-medium text-fg-primary">{workspace.name}</span>
-              <SandboxLabel />
-            </span>
-          </div>
+          <SidebarMenu className="min-w-0 flex-1">
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip={workspace.name}>
+                <Initials kind="workspace">{workspace.initial}</Initials>
+                <span className="font-medium text-fg-primary">{workspace.name}</span>
+                <ChevronsUpDownIcon strokeWidth={ICON_STROKE} className="ml-auto text-fg-tertiary" />
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
           <SidebarTrigger />
         </div>
-        <ScanImageButton />
+        <Button variant="secondary" size="sm" aria-label="Search">
+          <SearchIcon strokeWidth={ICON_STROKE} />
+          <span className="flex-1 text-left text-fg-tertiary group-data-[collapsible=icon]:hidden">Search</span>
+          <Kbd className="group-data-[collapsible=icon]:hidden">⌘K</Kbd>
+        </Button>
       </NavCard>
       <SidebarContent>
         {navGroups.map((group) => (
           <NavCard key={group.id} variant="group">
+            {group.label ? <SidebarGroupLabel>{group.label}</SidebarGroupLabel> : null}
             <SidebarMenu>
               {group.items.map((item) => (
                 <NavRow key={item.id} item={item} pathname={pathname} />
@@ -96,6 +90,9 @@ export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <NavCard variant="footer">
           <SidebarMenu>
+            {navFooter.map((item) => (
+              <NavRow key={item.id} item={item} pathname={pathname} />
+            ))}
             <SidebarMenuItem>
               <SidebarMenuButton size="sm" tooltip={currentUser.name}>
                 <Initials kind="user">{currentUser.initials}</Initials>
