@@ -41,6 +41,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast: "cn-toast",
+          // Sonner's light theme greys the description to #3f3f3f, which is 1.7:1 on ink.
+          description: "!text-on-inverted/75",
         },
       }}
       {...props}
