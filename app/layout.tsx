@@ -45,7 +45,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 </SidebarInset>
               </AppShell>
             </ScanProvider>
-            <Toaster />
+            {/* Bottom right: bottom left would cover the sidebar's user row and toggle. */}
+            <Toaster position="bottom-right" />
             <StartupToast />
           </TooltipProvider>
         </ThemeProvider>
