@@ -24,7 +24,7 @@ const fontPaperMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "Image classifier",
+  title: "Silicon",
   description: "Classifies an image as Hot Dog or Not Hot Dog. Inference is simulated.",
   robots: { index: false, follow: false },
 }
