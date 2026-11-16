@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="flex flex-col gap-4 p-6">
       <header className="flex items-baseline justify-between">
-        <h1 className="text-heading-6 font-medium">Workspace</h1>
+        <h1 className="text-heading-6 font-medium">Assessments</h1>
         <p className="text-caption-lg text-fg-tertiary">Dummy data · lib/fixtures</p>
       </header>
       <Table>

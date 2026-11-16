@@ -24,7 +24,7 @@ export type NavItem = {
 }
 export type NavGroup = { id: string; label?: string; items: NavItem[] }
 
-export const workspace = { name: "Notified Body · TÜV", initial: "T" }
+export const workspace = { name: "Halden Certification", initial: "H" }
 export const currentUser = { name: people[0], initials: "AO" }
 
 export const navGroups: NavGroup[] = [

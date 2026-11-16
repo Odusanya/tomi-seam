@@ -37,7 +37,7 @@ const monoScript = `if(new URLSearchParams(location.search).get("mono")==="paper
 
 // Rename on the day to the product in the brief.
 export const metadata: Metadata = {
-  title: "Workspace",
+  title: "Assessments · Halden",
   description: "Prototype built for a design engineering task.",
   robots: { index: false, follow: false },
 }
